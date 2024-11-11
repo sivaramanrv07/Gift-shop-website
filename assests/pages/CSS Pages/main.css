@@ -1,0 +1,108 @@
+body {
+    background: url(/assests/images/contact\ icon.jpeg) no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    backdrop-filter: blur(8px);
+}
+.container {
+     background-color: rgba(255, 255, 255, 0.9); 
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    width: 320px;
+   
+}
+#form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+#loginHeading {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: black;
+    text-align: center;
+}
+input[type="email"],
+input[type="password"],
+input[type="name"],
+input[type="c-password"]
+ {
+    height: 45px;
+    width: 90%;
+    padding: 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="name"]:focus,
+input[type="c-password"]:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+#login {
+    height: 45px;
+    width: 100%;
+    background-color: rgb(12, 157, 218);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#login:hover {
+    background-color: rgb(12, 157, 218);
+    transform: scale(1.05);
+}
+#register {
+    height: 45px;
+    width: 100%;
+    background-color: rgb(12, 157, 218);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+#register:hover {
+    background-color: rgb(12, 157, 218);
+    transform: scale(1.05);
+}
+p {
+    text-align: center;
+    font-size: 16px;
+    color: black;
+}
+a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+a:hover {
+    text-decoration: none;
+    color:blue
+}
+#email-error{
+    color: red;
+}
+#password-error{
+    color: red;
+}
+#c-password-error{
+    color: red;
+}
+#name-error{
+    color: red;
+}

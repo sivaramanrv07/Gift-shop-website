@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gift shop website </title>
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <!------------Header section starts -------------->
+<header>
+    <a href="#" class="logo"><img src="/assests/images/logo-icon.png" alt="" class="logo"></a>
+    
+       
+      <ul class="nav-menu">
+       <li><a href="/index.html" class="Home">Home</a></li>
+       <li><a href="../HTML Pages/Feature.html" class="Features">Features</a></li>
+       <li><a href="../HTML Pages/Product.html" class="Product">products</a></li>
+       <li><a href="../HTML Pages/Review.html" class="Review">Review</a></li>
+        <li><a href="../HTML Pages/Contact.html" class="Contact">Contact</a></li>
+       
+    </ul>
+    <div class="nav-icons">
+      <img id="search-icon" src="/assests/images/serach-icon.png">
+      <a href="#"><img src="../../images/cart-icon.png"></a>
+      <a href="/assests/pages/HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
+  </div>
+  <div class="search-bar-container" style="display: none;">
+      <input type="text" id="search-bar" class="search-bar" placeholder="Search for products...">
+      <span id="close-search" class="close-search">&#10005;</span> <!-- Close Button inside the search bar -->
+  </div>
+</header>
+
+<section id="Products" class="Products">
+    <h1 class="content">Product<span>Catagories</span></h1>  
+    <div class="product-slider" id="product-slider"></div>
+</section>
+
+<script>
+    const jsonData = {
+    "products": [
+      {
+        "name": "Plastic Round Magic Mirror",
+        "image": "/assests/images/Product 1.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Card Board Frame",
+        "image": "/assests/images/Product 2.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Photo Display Wall Hanging",
+        "image": "/assests/images/Product 3.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Floor Pillow with images",
+        "image": "/assests/images/Product 4.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Collage Frame",
+        "image": "/assests/images/Product 5.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": " LED Table Lamps",
+        "image": "/assests/images/Product 6.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Heart Beat Round Magic Mirror",
+        "image": "/assests/images/Product 7.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Leather Keychain & Photo Book ",
+        "image": "/assests/images/Product 8.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Magic Tea Cup",
+        "image": "/assests/images/Product 9.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Love Contract Agreement",
+        "image": "/assests/images/Product 10.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Illusion Photo Led Lamp",
+        "image": "/assests/images/Product 11.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Wallet Card With Photo",
+        "image": "/assests/images/Product 12.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Crystal Ball Night Lamp",
+        "image": "/assests/images/Product 13.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "MITZVAH Spotify code ",
+        "image": "/assests/images/Product 14.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Glass Ball Night LED Lamp",
+        "image": "/assests/images/Product 15.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Crystal Globe Lamp",
+        "image": "/assests/images/Product 16.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Fvawe Plastic Birthday Gifts",
+        "image": "/assests/images/Product 17.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Wedding Frame",
+        "image": "/assests/images/Product 18.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "MITZVAH Music Frame ",
+        "image": "/assests/images/Product 19.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Heart Shape LED Frame",
+        "image": "/assests/images/Product 20.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Light Lamp",
+        "image": "/assests/images/Product 21.jpeg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Crystal Music Code",
+        "image": "/assests/images/Product 22.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Leather Keychain With Calender ",
+        "image": "/assests/images/Product 23.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Graphic Photo Dice",
+        "image": "/assests/images/Product 24.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": " Digital Handmade Oil Painting",
+        "image": "/assests/images/Product 25.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Photo Print Digital Alarm Clock",
+        "image": "/assests/images/Product 26.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      },
+      {
+        "name": "Wooden Engraved Birthday Frame",
+        "image": "/assests/images/Product 27.jpg",
+        "price": "$4.99/- to 10.99/-",
+        "rating": 4.5,
+        "link": "payement.html"
+      }
+      
+    ]
+  }
+
+ 
+// Function to generate the product cards dynamically
+function displayProducts(data) {
+        const slider = document.getElementById('product-slider');
+
+        // Loop through each product in the data array
+        data.products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('products-box');
+
+            // Create HTML structure for each product
+            productDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="prices">${product.price}</div>
+                <div class="starts">
+                    ${generateStars(product.rating)}
+                </div>
+                <a href="${product.link}" class="btn">
+                    <button type="button" class="Button">Add to cart</button>
+                </a>
+                <a href="${product.link}" class="btn">
+                    <button type="button" class="Buttons">Buy now</button>
+                </a>
+            `;
+
+            // Append the product to the product slider
+            slider.appendChild(productDiv);
+        });
+    }
+
+    // Function to generate the star icons based on rating
+    function generateStars(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            if (i <= Math.floor(rating)) {
+                stars += '<i class="fas fa-star"></i>';
+            } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            } else {
+                stars += '<i class="far fa-star"></i>';
+            }
+        }
+        return stars;
+    }
+
+    // Call the function to display products on page load
+    window.onload = () => {
+        displayProducts(jsonData); // Pass the entire jsonData object
+    };
+</script>
+</body>
+<script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+</html>

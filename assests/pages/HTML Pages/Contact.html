@@ -1,0 +1,96 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gift shop website </title>
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="/assests/pages/JAVASCRIPT Pages/Features.js"></script>
+    
+</head>
+<body>
+    <!------------Header section starts -------------->
+<header>
+    <a href="#" class="logo"><img src="/assests/images/logo-icon.png" alt="" class="logo"></a>
+    
+       
+      <ul class="nav-menu">
+       <li><a href="/index.html" class="Home">Home</a></li>
+       <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
+       <li><a href="/assests/pages/HTML Pages/Product.html" class="Product">products</a></li>
+       <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
+        <li><a href="/assests/pages/HTML Pages/Contact.html" class="#Contact">Contact</a></li>
+       
+    </ul>
+    <div class="nav-icons">
+        <img id="search-icon" src="/assests/images/serach-icon.png">
+        <a href="#"><img src="../../images/cart-icon.png"></a>
+        <a href="/assests/pages/HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
+    </div>
+    <div class="search-bar-container" style="display: none;">
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search for products...">
+        <span id="close-search" class="close-search">&#10005;</span> <!-- Close Button inside the search bar -->
+    </div>
+</header>
+
+<section id="Contact" class="Contact">
+    <h1 class="touch"> Customer<span>Get in touch</span></h1>
+
+    <div class="contact-details">
+        <div class="contact-box">
+            <div class="left-side"></div>
+            <div class="right-side">
+                <h2>Send your message</h2>
+                <input type="text" placeholder="Your name" class="value" id="name">
+                <input type="email" placeholder="Your email" class="value" id="email">
+                <input type="number" placeholder="Your number" class="value" id="number">
+                <textarea class="value" placeholder="Message" id="message"></textarea>
+                <button class="btns" id="submitBtn">Send</button>
+                <!-- Success message will be shown here -->
+                <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 40px;">
+                    Message sent successfully!
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+</body>
+<script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+<script>
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const numberInput = document.getElementById('number');
+    const messageInput = document.getElementById('message');
+    
+    // Add an event listener to the submit button
+    submitBtn.addEventListener('click', (event) => {
+        // Prevent page from reloading on submit (if form submission triggers a reload)
+        event.preventDefault();
+    
+        // Check if all fields are filled
+        if (nameInput.value && emailInput.value && numberInput.value && messageInput.value) {
+            // Show the success message
+            successMessage.style.display = 'block';
+    
+            // Optionally, reset the form fields
+            nameInput.value = '';
+            emailInput.value = '';
+            numberInput.value = '';
+            messageInput.value = '';
+        } else {
+            // Show an error message if any field is empty
+            alert('Please fill in all fields!');
+        }
+    });
+    </script>
+
+</html>

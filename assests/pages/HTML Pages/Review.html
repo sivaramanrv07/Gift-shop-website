@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gift shop website </title>
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="/assests/pages/JAVASCRIPT Pages/Features.js"></script>
+    
+</head>
+<body>
+    <!------------Header section starts -------------->
+<header>
+    <a href="#" class="logo"><img src="/assests/images/logo-icon.png" alt="" class="logo"></a>
+    
+       
+      <ul class="nav-menu">
+       <li><a href="/index.html" class="Home">Home</a></li>
+       <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
+       <li><a href="/assests/pages/HTML Pages/Product.html" class="Product">products</a></li>
+       <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
+        <li><a href="/assests/pages/HTML Pages/Contact.html" class="#Contact">Contact</a></li>
+       
+    </ul>
+    <div class="nav-icons">
+        <img id="search-icon" src="/assests/images/serach-icon.png">
+        <a href="#"><img src="../../images/cart-icon.png"></a>
+        <a href="/assests/pages/HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
+    </div>
+    <div class="search-bar-container" style="display: none;">
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search for products...">
+        <span id="close-search" class="close-search">&#10005;</span> <!-- Close Button inside the search bar -->
+    </div>
+</header>
+
+<section id="Review" class="Review">
+    <h1 class="content">Our Customer's<span>Review</span></h1>  
+
+    <div class="Review-slider" id="review-slider">
+        <!-- Reviews will be injected here using JavaScript -->
+    </div>
+</section>
+</body>
+<script src="/assests/pages/JAVASCRIPT Pages/search.js"></script>
+<script>
+    // Sample JSON data (you could also load this from an external file)
+    const reviewsData = [
+        {
+            "name": "James",
+            "image": "../../images/review img-1.jpg",
+            "rating": 4.5,
+            "review": "A critical element of this process is the provision of feedback during performance reviews, which directly influences an employee's productivity, job satisfaction, and professional growth."
+        },
+        {
+            "name": "Lucia",
+            "image": "../../images/review img- 2.jpg",
+            "rating": 3.5,
+            "review": "A critical element of this process is the provision of feedback during performance reviews, which directly influences an employee's productivity, job satisfaction, and professional growth."
+        },
+        {
+            "name": "John Deo",
+            "image": "../../images/review img- 3.jpg",
+            "rating": 4.5,
+            "review": "A critical element of this process is the provision of feedback during performance reviews, which directly influences an employee's productivity, job satisfaction, and professional growth."
+        }
+    ];
+    
+    // Function to generate the review HTML
+    function generateReviews(reviews) {
+        const reviewContainer = document.getElementById('review-slider');
+    
+        reviews.forEach(review => {
+            // Create the review box div
+            const reviewBox = document.createElement('div');
+            reviewBox.classList.add('review-box');
+            
+            // Create the image element
+            const imgElement = document.createElement('img');
+            imgElement.src = review.image;
+            reviewBox.appendChild(imgElement);
+            
+            // Create the stars and name section
+            const starDiv = document.createElement('div');
+            starDiv.classList.add('start');
+            
+            const nameElement = document.createElement('h3');
+            nameElement.textContent = review.name;
+            starDiv.appendChild(nameElement);
+            
+            // Generate the stars based on rating
+            const fullStars = Math.floor(review.rating);
+            const halfStars = review.rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                const star = document.createElement('i');
+                star.classList.add('fas', 'fa-star');
+                starDiv.appendChild(star);
+            }
+    
+            if (halfStars) {
+                const halfStar = document.createElement('i');
+                halfStar.classList.add('fas', 'fa-star-half-alt');
+                starDiv.appendChild(halfStar);
+            }
+    
+            // Add the stars to the review box
+            reviewBox.appendChild(starDiv);
+    
+            // Add the review text
+            const reviewText = document.createElement('p');
+            reviewText.textContent = review.review;
+            reviewBox.appendChild(reviewText);
+            
+            // Append the review box to the container
+            reviewContainer.appendChild(reviewBox);
+        });
+    }
+    
+    // Call the function to generate reviews
+    generateReviews(reviewsData);
+    </script>
+</html>    
