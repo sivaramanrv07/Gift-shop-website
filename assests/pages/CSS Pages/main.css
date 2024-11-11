@@ -1,5 +1,5 @@
 body {
-    background: url(/assests/images/contact\ icon.jpeg) no-repeat center center fixed;
+    background: url(../../images/cart-icon.png) no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
