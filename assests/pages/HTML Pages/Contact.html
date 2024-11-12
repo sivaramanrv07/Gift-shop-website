@@ -44,10 +44,9 @@
                 <h2>Send your message</h2>
                 <input type="text" placeholder="Your name" class="value" id="name">
                 <input type="email" placeholder="Your email" class="value" id="email">
-                <input type="number" placeholder="Your number" class="value" id="number">
+                <input type="number" placeholder="Your number" class="value" id="number"pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
                 <textarea class="value" placeholder="Message" id="message"></textarea>
                 <button class="btns" id="submitBtn">Send</button>
-                <!-- Success message will be shown here -->
                 <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 40px;">
                     Message sent successfully!
                 </div>
