@@ -70,59 +70,63 @@
         }
     ];
     
-    // Function to generate the review HTML
-    function generateReviews(reviews) {
+     // Function to generate the review HTML
+     function generateReviews(reviews) {
         const reviewContainer = document.getElementById('review-slider');
-    
-        reviews.forEach(review => {
+        reviewContainer.innerHTML = ""; // Clear existing reviews
+
+        reviews.forEach((review, index) => {
             // Create the review box div
             const reviewBox = document.createElement('div');
             reviewBox.classList.add('review-box');
-            
+
             // Create the image element
             const imgElement = document.createElement('img');
             imgElement.src = review.image;
+            imgElement.alt = review.name;
             reviewBox.appendChild(imgElement);
-            
+
             // Create the stars and name section
             const starDiv = document.createElement('div');
             starDiv.classList.add('start');
-            
+
             const nameElement = document.createElement('h3');
             nameElement.textContent = review.name;
             starDiv.appendChild(nameElement);
-            
+
             // Generate the stars based on rating
             const fullStars = Math.floor(review.rating);
             const halfStars = review.rating % 1 >= 0.5;
-            
+
             for (let i = 0; i < fullStars; i++) {
                 const star = document.createElement('i');
                 star.classList.add('fas', 'fa-star');
                 starDiv.appendChild(star);
             }
-    
+
             if (halfStars) {
                 const halfStar = document.createElement('i');
                 halfStar.classList.add('fas', 'fa-star-half-alt');
                 starDiv.appendChild(halfStar);
             }
-    
+
             // Add the stars to the review box
             reviewBox.appendChild(starDiv);
-    
+
             // Add the review text
             const reviewText = document.createElement('p');
             reviewText.textContent = review.review;
             reviewBox.appendChild(reviewText);
-            
+
+
             // Append the review box to the container
             reviewContainer.appendChild(reviewBox);
         });
     }
-    
-    // Call the function to generate reviews
+
+    // Initial call to generate reviews
     generateReviews(reviewsData);
+
     </script>
     
 </html>    
