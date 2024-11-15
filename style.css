@@ -56,6 +56,7 @@ height: auto;
    border-radius: 20px;
    padding: 5px;
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
  }
  
  .search-bar {
@@ -64,7 +65,14 @@ height: auto;
    border: none;
    outline: none;
    font-size: 16px;
+   
  }
+ .no-results {
+   text-align: center;
+   font-size: 20px;
+   color:red;
+   margin-top: 20px;
+}
  
  .close-search {
    font-size: 24px;
@@ -97,6 +105,7 @@ height: auto;
 .nav-icons img:hover{
   background-color:orange;
   border-radius: 5px;
+  cursor: pointer;
  
 }
 

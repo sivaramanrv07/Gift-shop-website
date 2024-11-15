@@ -25,4 +25,8 @@ document.getElementById('search-icon').addEventListener('click', function(event)
       searchBarContainer.style.display = 'none';
     }
   });
+
+
+
+  
   

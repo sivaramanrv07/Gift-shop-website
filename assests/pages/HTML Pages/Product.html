@@ -237,57 +237,117 @@
   }
 
  
-// Function to generate the product cards dynamically
-function displayProducts(data) {
-        const slider = document.getElementById('product-slider');
+ // Function to generate the product cards dynamically
+ function displayProducts(data) {
+            const slider = document.getElementById('product-slider');
 
-        // Loop through each product in the data array
-        data.products.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('products-box');
+            // Clear previous products before adding new ones
+            slider.innerHTML = '';
 
-            // Create HTML structure for each product
-            productDiv.innerHTML = `
-                <img src="${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <div class="prices">${product.price}</div>
-                <div class="starts">
-                    ${generateStars(product.rating)}
-                </div>
-                <a href="${product.link}" class="btn">
-                    <button type="button" class="Button">Add to cart</button>
-                </a>
-                <a href="${product.link}" class="btn">
-                    <button type="button" class="Buttons">Buy now</button>
-                </a>
-            `;
+            if (data.products.length === 0) {
+        // Display "No products found" message if no products match the search
+        const noResultsMessage = document.createElement('div');
+        noResultsMessage.classList.add('no-results');
+        noResultsMessage.innerHTML = `<h3>No products found for your search.</h3>`;
+        slider.appendChild(noResultsMessage);
+    } else {
 
-            // Append the product to the product slider
-            slider.appendChild(productDiv);
-        });
-    }
+            // Loop through each product in the data array
+            data.products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('products-box');
 
-    // Function to generate the star icons based on rating
-    function generateStars(rating) {
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-            if (i <= Math.floor(rating)) {
-                stars += '<i class="fas fa-star"></i>';
-            } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                stars += '<i class="fas fa-star-half-alt"></i>';
-            } else {
-                stars += '<i class="far fa-star"></i>';
-            }
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <div class="prices">${product.price}</div>
+                    <div class="starts">
+                        ${generateStars(product.rating)}
+                    </div>
+                    <a href="${product.link}" class="btn">
+                        <button type="button" class="Button">Add to cart</button>
+                    </a>
+                    <a href="${product.link}" class="btn">
+                        <button type="button" class="Buttons">Buy now</button>
+                    </a>
+                `;
+
+                slider.appendChild(productDiv);
+            });
         }
-        return stars;
-    }
-    
+      }
+        // Function to generate the star icons based on rating
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(rating)) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
 
-    // Call the function to display products on page load
-    window.onload = () => {
-        displayProducts(jsonData); // Pass the entire jsonData object
-    };
-</script>
+        // On page load
+        window.onload = () => {
+            displayProducts(jsonData); // Display all products on load
+
+            // Search functionality
+            const searchBar = document.getElementById('search-bar');
+            searchBar.addEventListener('input', function () {
+                const searchQuery = this.value.toLowerCase();
+                const filteredData = {
+                    "products": jsonData.products.filter(product =>
+                        product.name.toLowerCase().includes(searchQuery)
+                    )
+                };
+                displayProducts(filteredData);
+
+                // Store search query in localStorage for other pages
+                localStorage.setItem('searchQuery', searchQuery);
+            });
+
+            // Load the stored search query from localStorage
+            document.addEventListener('DOMContentLoaded', function () {
+                const storedQuery = localStorage.getItem('searchQuery');
+                if (storedQuery) {
+                    searchBar.value = storedQuery;
+                    const filteredData = {
+                        "products": jsonData.products.filter(product =>
+                            product.name.toLowerCase().includes(storedQuery.toLowerCase())
+                        )
+                    };
+                    displayProducts(filteredData);
+                }
+            });
+
+            // Search icon click event to show the search bar
+            document.getElementById('search-icon').addEventListener('click', function (event) {
+                document.querySelector('.search-bar-container').style.display = 'block';
+                searchBar.focus();
+                event.stopPropagation(); // Stop event propagation
+            });
+
+            // Close search bar event
+            document.getElementById('close-search').addEventListener('click', function (event) {
+                document.querySelector('.search-bar-container').style.display = 'none';
+                event.stopPropagation(); // Stop event propagation
+            });
+
+            // Close the search bar if clicked outside
+            document.addEventListener('click', function (event) {
+                const searchBarContainer = document.querySelector('.search-bar-container');
+                const searchIcon = document.getElementById('search-icon');
+
+                if (!searchIcon.contains(event.target) && !searchBarContainer.contains(event.target)) {
+                    searchBarContainer.style.display = 'none';
+                }
+            });
+        };
+    </script>
 </body>
-<script src="../../pages/JAVASCRIPT Pages/search.js"></script>
+
 </html>
