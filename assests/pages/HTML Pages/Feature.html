@@ -26,14 +26,14 @@
        
     </ul>
     <div class="nav-icons">
-        <img id="search-icon" src="../../images/serach-icon.png">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search here..." id="searchBar">
+            <button class="search-button" type="submit">Search</button>
+        </div>
         <a href="#"><img src="../../images/cart-icon.png"></a>
         <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
     </div>
-    <div class="search-bar-container" style="display: none;">
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search for products...">
-        <span id="close-search" class="close-search">&#10005;</span> <!-- Close Button inside the search bar -->
-    </div>
+   
 </header>
 
 <!----------------Header section end ----------------->
@@ -43,51 +43,70 @@
     </section>
 
     <script>
-        // Example of the JSON data
-        const jsonData = {
-            "sectionId": "Features",
-            "heading": "Our Features",
-            "features": [
-                {
-                    "title": "Free Delivery",
-                    "image": "../../images/free delivery icon.jpeg",
-                    "description": "Get free delivery on all orders, with no minimum required!",
-                    "buttonText": "Read More"
-                },
-                {
-                    "title": "Replacement",
-                    "image": "../../images/replacement icon.jpeg",
-                    "description": "If you share some details about the product you're replacing, I can tailor it more precisely.",
-                    "buttonText": "Read More"
-                },
-                {
-                    "title": "Easy Payment",
-                    "image": "../../images/payement icon.jpeg",
-                    "description": "This can work for anything from an online service to a point-of-sale system.",
-                    "buttonText": "Read More"
-                }
-            ]
-        };
-
-        // Function to generate the feature boxes dynamically
-        function displayFeatures(data) {
-            const boxContainer = document.getElementById('box-container');
-            data.features.forEach(feature => {
-                const featureDiv = document.createElement('div');
-                featureDiv.classList.add('box');
-                featureDiv.innerHTML = `
-                    <img src="${feature.image}" alt="${feature.title}">
-                    <h3>${feature.title}</h3>
-                    <p>${feature.description}</p>
-                    <button type="button" class="button">${feature.buttonText}</button>
-                `;
-                boxContainer.appendChild(featureDiv);
-            });
+       const jsonData = {
+    "sectionId": "Features",
+    "heading": "Our Features",
+    "features": [
+        {
+            "title": "Free Delivery",
+            "image": "../../images/free delivery icon.jpeg",
+            "description": "Get free delivery on all orders, with no minimum required! <span class='more-text'> We offer fast and reliable delivery to your doorstep, ensuring your products arrive on time.</span>",
+            "buttonText": "Read More"
+        },
+        {
+            "title": "Replacement",
+            "image": "../../images/replacement icon.jpeg",
+            "description": "If you share some details about the product you're replacing, I can tailor it more precisely. <span class='more-text'> Our replacement policy is simple, efficient, and ensures that you always get the right product.</span>",
+            "buttonText": "Read More"
+        },
+        {
+            "title": "Easy Payment",
+            "image": "../../images/payement icon.jpeg",
+            "description": "This can work for anything from an online service to a point-of-sale system. <span class='more-text'> We offer secure and multiple payment methods including credit cards, PayPal, and more.</span>",
+            "buttonText": "Read More"
         }
+    ]
+};
 
-        // Display the features when the page loads
-        displayFeatures(jsonData);
+function displayFeatures(data) {
+    const boxContainer = document.getElementById('box-container');
+    data.features.forEach(feature => {
+        const featureDiv = document.createElement('div');
+        featureDiv.classList.add('box');
+        
+   
+        featureDiv.innerHTML = `
+            <img src="${feature.image}" alt="${feature.title}">
+            <h3>${feature.title}</h3>
+            <p>${feature.description}</p>
+            <button type="button" class="button read-more-btn">${feature.buttonText}</button>
+        `;
+
+   
+        boxContainer.appendChild(featureDiv);
+
+        const readMoreButton = featureDiv.querySelector('.read-more-btn');
+        const description = featureDiv.querySelector('p');
+        const moreText = description.querySelector('.more-text');
+        
+     
+        moreText.style.display = 'none';
+
+      
+        readMoreButton.addEventListener('click', () => {
+            if (moreText.style.display === 'none') {
+                moreText.style.display = 'inline';  
+                readMoreButton.textContent = 'Read Less';  
+            } else {
+                moreText.style.display = 'none'; 
+                readMoreButton.textContent = 'Read More';  
+            }
+        });
+    });
+}
+
+displayFeatures(jsonData);
+
     </script>
 </body>
-<script src="../../pages/JAVASCRIPT Pages/search.js"></script>
 </html>
