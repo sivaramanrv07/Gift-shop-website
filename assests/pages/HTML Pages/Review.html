@@ -7,9 +7,8 @@
     <title>gift shop website </title>
 
     <link rel="stylesheet" href="../../../style.css">
-    <script src="../../pages/JAVASCRIPT Pages/search.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <script src="/assests/pages/JAVASCRIPT Pages/Features.js"></script>
+
     
 </head>
 <body>
@@ -35,21 +34,29 @@
         <a href="#"><img src="../../images/cart-icon.png"></a>
         <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
     </div>
-    <div class="search-bar-container" style="display: none;">
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search for products...">
-        <span id="close-search" class="close-search">&#10005;</span> <!-- Close Button inside the search bar -->
-    </div>
+    
+
 </header>
 
 <section id="Review" class="Review">
     <h1 class="content">Our Customer's<span>Review</span></h1>  
 
     <div class="Review-slider" id="review-slider">
-        <!-- Reviews will be injected here using JavaScript -->
+    
     </div>
 </section>
+
+ <section id="AddReview" class="AddReview">
+        <h2>Add Your Review</h2>
+        <form id="add-review-form">
+            <input type="text" id="review-name" placeholder="Your name" required>
+            <input type="url" id="review-image" placeholder="Image URL" required>
+            <input type="number" id="review-rating" placeholder="Rating (1 to 5)" min="1" max="5" required>
+            <textarea id="review-text" placeholder="Write your review..." required></textarea>
+            <button type="submit">Submit Review</button>
+        </form>
+    </section>
 </body>
-<script src="../../pages/JAVASCRIPT Pages/search.js"></script>
 <script>
     // Sample JSON data (you could also load this from an external file)
     const reviewsData = [
@@ -72,63 +79,127 @@
             "review": "A critical element of this process is the provision of feedback during performance reviews, which directly influences an employee's productivity, job satisfaction, and professional growth."
         }
     ];
-    
-     // Function to generate the review HTML
-     function generateReviews(reviews) {
-        const reviewContainer = document.getElementById('review-slider');
-        reviewContainer.innerHTML = ""; // Clear existing reviews
+   
+           function generateReviews(reviews) {
+            const reviewContainer = document.getElementById('review-slider');
+            reviewContainer.innerHTML = ""; // Clear existing reviews
 
-        reviews.forEach((review, index) => {
-            // Create the review box div
-            const reviewBox = document.createElement('div');
-            reviewBox.classList.add('review-box');
+            reviews.forEach((review, index) => {
+                // Create the review box div
+                const reviewBox = document.createElement('div');
+                reviewBox.classList.add('review-box');
 
-            // Create the image element
-            const imgElement = document.createElement('img');
-            imgElement.src = review.image;
-            imgElement.alt = review.name;
-            reviewBox.appendChild(imgElement);
+                // Create the image element
+                const imgElement = document.createElement('img');
+                imgElement.src = review.image;
+                imgElement.alt = review.name;
+                reviewBox.appendChild(imgElement);
 
-            // Create the stars and name section
-            const starDiv = document.createElement('div');
-            starDiv.classList.add('start');
+                // Create the stars and name section
+                const starDiv = document.createElement('div');
+                starDiv.classList.add('start');
+                const nameElement = document.createElement('h3');
+                nameElement.textContent = review.name;
+                starDiv.appendChild(nameElement);
 
-            const nameElement = document.createElement('h3');
-            nameElement.textContent = review.name;
-            starDiv.appendChild(nameElement);
+                // Generate the stars based on rating
+                const fullStars = Math.floor(review.rating);
+                const halfStars = review.rating % 1 >= 0.5;
 
-            // Generate the stars based on rating
-            const fullStars = Math.floor(review.rating);
-            const halfStars = review.rating % 1 >= 0.5;
+                for (let i = 0; i < fullStars; i++) {
+                    const star = document.createElement('i');
+                    star.classList.add('fas', 'fa-star');
+                    starDiv.appendChild(star);
+                }
 
-            for (let i = 0; i < fullStars; i++) {
-                const star = document.createElement('i');
-                star.classList.add('fas', 'fa-star');
-                starDiv.appendChild(star);
-            }
+                if (halfStars) {
+                    const halfStar = document.createElement('i');
+                    halfStar.classList.add('fas', 'fa-star-half-alt');
+                    starDiv.appendChild(halfStar);
+                }
 
-            if (halfStars) {
-                const halfStar = document.createElement('i');
-                halfStar.classList.add('fas', 'fa-star-half-alt');
-                starDiv.appendChild(halfStar);
-            }
+                reviewBox.appendChild(starDiv);
 
-            // Add the stars to the review box
-            reviewBox.appendChild(starDiv);
+                // Add the review text
+                const reviewText = document.createElement('p');
+                reviewText.textContent = review.review;
+                reviewBox.appendChild(reviewText);
 
-            // Add the review text
-            const reviewText = document.createElement('p');
-            reviewText.textContent = review.review;
-            reviewBox.appendChild(reviewText);
+                // Add Edit and Delete buttons
+                const buttonDiv = document.createElement('div');
+                buttonDiv.classList.add('review-buttons');
+                const editButton = document.createElement('button');
+                editButton.textContent = "Edit";
+                editButton.onclick = () => editReview(index);
 
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = () => deleteReview(index);
 
-            // Append the review box to the container
-            reviewContainer.appendChild(reviewBox);
+                buttonDiv.appendChild(editButton);
+                buttonDiv.appendChild(deleteButton);
+
+                reviewBox.appendChild(buttonDiv);
+
+                // Append the review box to the container
+                reviewContainer.appendChild(reviewBox);
+            });
+        }
+
+        // Add a new review
+        document.getElementById('add-review-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('review-name').value;
+            const image = document.getElementById('review-image').value;
+            const rating = parseFloat(document.getElementById('review-rating').value);
+            const reviewText = document.getElementById('review-text').value;
+
+            const newReview = {
+                name: name,
+                image: image,
+                rating: rating,
+                review: reviewText
+            };
+
+            reviewsData.push(newReview); // Add the new review to the data array
+            generateReviews(reviewsData); // Re-render the reviews
+            this.reset(); // Clear the form
         });
-    }
 
-    // Initial call to generate reviews
-    generateReviews(reviewsData);
+        // Edit a review
+        function editReview(index) {
+            const review = reviewsData[index];
+
+            // Prefill the form with the existing review data
+            document.getElementById('review-name').value = review.name;
+            document.getElementById('review-image').value = review.image;
+            document.getElementById('review-rating').value = review.rating;
+            document.getElementById('review-text').value = review.review;
+
+            // Modify the form submission logic to update the review
+            document.getElementById('add-review-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                review.name = document.getElementById('review-name').value;
+                review.image = document.getElementById('review-image').value;
+                review.rating = parseFloat(document.getElementById('review-rating').value);
+                review.review = document.getElementById('review-text').value;
+
+                generateReviews(reviewsData); // Re-render the reviews
+                this.reset(); // Clear the form
+            }, { once: true });
+        }
+
+        // Delete a review
+        function deleteReview(index) {
+            reviewsData.splice(index, 1); // Remove the review from the array
+            generateReviews(reviewsData); // Re-render the reviews
+        }
+
+        // Initial rendering of reviews
+        generateReviews(reviewsData);
+
 
     </script>
     
