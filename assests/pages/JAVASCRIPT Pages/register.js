@@ -47,8 +47,8 @@ form.addEventListener("submit", (event) => {
         nameerror.textContent = "Username required";
         valid = false;
     }
-    if(name.value.length<4){
-        nameerror.textContent = "Username must be at least 8 characters long.";
+     else if(name.value.length<4){
+        nameerror.textContent = "Username must be at least 4 characters long.";
         valid = false;
     }
     if (email.value.length === 0) {
