@@ -77,10 +77,16 @@ form.addEventListener("submit", (event) => {
         passworderror.textContent = "Password must contain atleast one special character.";
         valid = false;
         }
+
+    else if (/\s/.test(password.value)) {  // Check for spaces
+        passworderror.textContent = "Password cannot contain spaces.";
+        valid = false;
+    }
     if (confirmPassword.value !== password.value) {
         cpasserror.textContent = "Passwords do not match";
         valid = false;
     }
+    
 
     if (valid) {
         const emailValue = email.value;
