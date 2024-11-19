@@ -51,6 +51,10 @@ form.addEventListener("submit", (event) => {
         nameerror.textContent = "Username must be at least 4 characters long.";
         valid = false;
     }
+ else if (/^\d+$/.test(name.value)) {  // Check if the username consists of only digits
+    nameerror.textContent = "Username cannot be just numbers.";
+    valid = false;
+}
     if (email.value.length === 0) {
         emailerror.textContent = "Email required";
         valid = false;
@@ -136,6 +140,18 @@ password.addEventListener("input", () => passworderror.textContent = '');
 confirmPassword.addEventListener("input", () => cpasserror.textContent = '');
 
 function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+
+    if (!re.test(String(email).toLowerCase())) {
+        return false;
+    }
+
+ 
+    const domainPart = email.split('@')[1];
+    const domainName = domainPart.split('.')[0]; 
+    if (/^\d/.test(domainName)) {
+        return false; 
+    }
+
+    return true; 
 };
