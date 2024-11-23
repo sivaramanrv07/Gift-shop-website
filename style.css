@@ -522,13 +522,14 @@ background-color: orange;
 	text-align: center;
 	background-color: #fff;
 	box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.19);
-   margin-bottom: 150px;
+   margin-bottom: 200px;
 }
 
 .left-side{
 	background: url("assests/images/contact\ icon.jpeg") no-repeat center;
 	background-size: cover;
 	height: 100%;
+   width: 500PX;
    
 }
 
