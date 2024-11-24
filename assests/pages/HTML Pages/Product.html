@@ -31,7 +31,7 @@
         <input type="text" class="search-input" placeholder="Search here..." id="searchBar">
         <button class="search-button" id="searchButton" type="submit">Search</button>
     </div>
-        <a href="#"><img src="../../images/cart-icon.png"></a>
+        <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png"></a>
         <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
     </div>
 </header>
@@ -303,12 +303,13 @@ function displayProducts(data) {
                 <h3>${product.name}</h3>
                 <div class="prices">${product.price}</div>
                 <div class="starts">${generateStars(product.rating)}</div>
-                <a href="${product.link}" class="btn">
-                    <button type="button" class="Button">Add to cart</button>
+               <a href="javascript:void(0)" class="btn">
+                    <button type="button" class="Button" onclick="addToCart('${product.name}', '${product.image}', '${product.price}', '${product.link}')">Add to cart</button>
                 </a>
-                <a href="${product.link}" class="btn">
-                    <button type="button" class="Buttons">Buy now</button>
+                <a href="javascript:void(0)" class="btn">
+                    <button type="button" class="Buttons" onclick="buyNow('${product.name}', '${product.image}', '${product.price}', '${product.link}')">Buy now</button>
                 </a>
+                
             `;
             slider.appendChild(productDiv);
         });
@@ -340,6 +341,39 @@ function performSearch(query) {
     };
     displayProducts(filteredData);  // Update product display
 }
+
+
+function addToCart(name, image, price, link) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || []; // Get cart from localStorage or initialize it
+    const product = { name, image, price, link };
+
+    cart.push(product); // Add the product to the cart array
+
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save the updated cart to localStorage
+
+    alert(`${name} has been added to your cart!`);
+}
+
+// Function to handle "Buy Now" button click
+function buyNow(name, image, price, link) {
+    // Check if the user is logged in
+    const userLoggedIn = localStorage.getItem('userLoggedIn');
+
+    if (userLoggedIn === 'true') {
+        // If the user is logged in, proceed to the buy page (or payment page)
+        window.location.href = link;  // Redirect to the buy-now page (or payment page)
+    } else {
+        // If the user is not logged in, redirect to the login page
+        alert("You need to log in first to make a purchase.");
+
+        // Optionally store the redirect URL so the user can be redirected after login
+        localStorage.setItem('redirectUrl', link);
+
+        // Redirect to the login page
+        window.location.href = '../HTML Pages/login.html';  // Adjust the login page path if needed
+    }
+}
+
 
     </script>
 

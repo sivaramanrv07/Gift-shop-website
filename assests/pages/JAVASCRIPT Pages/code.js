@@ -75,8 +75,16 @@ form.addEventListener("submit", (event) => {
                 // Successfully logged in
                 const user = userCredential.user;
                 console.log('Login successful:', user);
-                // Redirect to a different page (e.g., dashboard or home)
-                window.location.href = "../../../index.html"; // Change this to the page you want to redirect to
+
+                const redirectUrl = localStorage.getItem('redirectUrl');
+                if (redirectUrl) {
+                    // Redirect to the original page they wanted to access
+                    window.location.href = redirectUrl;
+                    localStorage.removeItem('redirectUrl');  // Clean up
+                } else {
+                    // Default redirect to homepage or dashboard
+                    window.location.href = "../../../index.html";  // Adjust as needed
+                }
 
             })
             .catch((error) => {
