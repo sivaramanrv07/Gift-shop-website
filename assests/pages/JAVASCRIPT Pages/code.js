@@ -74,17 +74,12 @@ form.addEventListener("submit", (event) => {
             .then((userCredential) => {
                 // Successfully logged in
                 const user = userCredential.user;
-                console.log('Login successful:', user);
+                let bool = true;
 
-                const redirectUrl = localStorage.getItem('redirectUrl');
-                if (redirectUrl) {
-                    // Redirect to the original page they wanted to access
-                    window.location.href = redirectUrl;
-                    localStorage.removeItem('redirectUrl');  // Clean up
-                } else {
+                localStorage.setItem('userLoggedIn',JSON.stringify(bool))
+                console.log('Login successful:', user);
                     // Default redirect to homepage or dashboard
-                    window.location.href = "../../../index.html";  // Adjust as needed
-                }
+                    window.location.href = "../../../index.html"; 
 
             })
             .catch((error) => {

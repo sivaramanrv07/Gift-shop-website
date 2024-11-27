@@ -26,7 +26,6 @@
        
     </ul>
     <div class="nav-icons">
-       <!--  <img id="search-icon" src="../../images/serach-icon.png"> -->
        <div class="search-container">
         <input type="text" class="search-input" placeholder="Search here..." id="searchBar">
         <button class="search-button" id="searchButton" type="submit">Search</button>
@@ -236,18 +235,16 @@
       
     ]
   }
-// Function to generate the product cards dynamically
 window.onload = () => {
     const searchBar = document.getElementById('searchBar');
-    const searchButton = document.getElementById('searchButton'); // Corrected ID here
+    const searchButton = document.getElementById('searchButton'); 
 
-    // Trigger search on button click
     searchButton.addEventListener('click', function () {
         const searchQuery = searchBar.value.trim();
         console.log("Search button clicked!");  // Debugging line
         if (searchQuery === '') {
-            localStorage.removeItem('searchQuery');  // Clear query from localStorage when search is empty
-            displayProducts(jsonData);  // Show all products when search is cleared
+            localStorage.removeItem('searchQuery'); 
+            displayProducts(jsonData);  
         } else {
             localStorage.setItem('searchQuery', searchQuery);  // Store query in localStorage
             performSearch(searchQuery);  // Perform search based on the search query
@@ -342,17 +339,35 @@ function performSearch(query) {
     displayProducts(filteredData);  // Update product display
 }
 
-
 function addToCart(name, image, price, link) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || []; // Get cart from localStorage or initialize it
+    // Check if the user is logged in
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true'; // Assumes 'true' means logged in
+
+    if (!isLoggedIn) {
+        // If not logged in, show an alert and stop the function
+        alert('You need to be logged in to add items to your cart.');
+        return;
+    }
+
+    // Get cart from localStorage or initialize it
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const product = { name, image, price, link };
 
-    cart.push(product); // Add the product to the cart array
+    // Check if the product is already in the cart
+    const productIndex = cart.findIndex(item => item.name === name);
 
-    localStorage.setItem('cart', JSON.stringify(cart)); // Save the updated cart to localStorage
-
-    alert(`${name} has been added to your cart!`);
+    if (productIndex === -1) {
+        // If the product is not already in the cart, add it
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart)); // Save the updated cart to localStorage
+        alert(`${name} has been added to your cart!`);
+    } else {
+        // If the product is already in the cart, show a message
+        alert(`${name} is already in your cart!`);
+    }
 }
+
+
 
 // Function to handle "Buy Now" button click
 function buyNow(name, image, price, link) {
