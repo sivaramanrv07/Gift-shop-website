@@ -47,4 +47,11 @@
 
 <!---------------Home section end----------------->
 </body>
+<script>
+    window.history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function () {
+    window.history.pushState(null, null, window.location.href);
+    
+});
+</script>
 </html>
