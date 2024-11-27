@@ -1,5 +1,130 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
 
+    <div class="cart-container">
+        <h1>Your Shopping Cart</h1>
+
+        <div id="cart-items" class="cart-items"></div>
+
+        <div class="cart-summary">
+            <p id="total-price">Total Price: $0.00</p>
+            <button id="order-btn" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+    <script>
+        
+        function displayCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceElement = document.getElementById('total-price');
+            const orderButton = document.getElementById('order-btn');
+          
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty!</p>';
+                totalPriceElement.innerHTML = 'Total Price: $0.00';
+                orderButton.disabled = true;
+                return;
+            }
+
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h3>${item.name}</h3>
+                        <p class="item-price">$${(parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity).toFixed(2)}</p>
+                        <div class="quantity-control">
+                            <button class="quantity-button" onclick="updateQuantity(${index}, -1)">-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" readonly>
+                            <button class="quantity-button" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                `;
+
+                cartItemsContainer.appendChild(cartItem);
+
+                totalPrice += parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity;
+            });
+
+            totalPriceElement.innerHTML = `Total Price: $${totalPrice.toFixed(2)}`;
+            orderButton.disabled = false;
+        }
+
+        // Update quantity in the cart
+        function updateQuantity(index, change) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            const item = cart[index];
+            item.quantity = Math.max(1, item.quantity + change); 
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            displayCart();
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            displayCart();
+        }
+
+        function placeOrder() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items to your cart before placing an order.');
+                return;
+            }
+
+            const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
+            const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
+
+            if (orderConfirmation) {
+                localStorage.setItem('orderDetails', JSON.stringify({
+                    cart: cart,
+                    totalPrice: totalPrice
+                }));
+
+                localStorage.removeItem('cart');
+
+                window.location.href = '../HTML Pages/payement.html'; 
+            }
+        }
+
+        window.onload = function() {
+           
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.forEach(item => {
+                if (!item.quantity) {
+                    item.quantity = 1; 
+                }
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            displayCart();
+        };
+    </script>
+
+</body>
+</html>
 
 
 

@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
@@ -34,68 +33,78 @@ const minlength = 8;
 const hasNumber = /[0-9]/;
 const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
+
+const containsSpaceOrSlash = (str) => /\s|\/+/.test(str);
+
+
+const containsSlashInEmail = (email) => email.includes("/");
+
 form.addEventListener("submit", (event) => {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
+    event.preventDefault(); 
     nameerror.textContent = "";
     emailerror.textContent = "";
     passworderror.textContent = "";
     cpasserror.textContent = "";
-    
+
     let valid = true;
 
     if (name.value.length === 0) {
         nameerror.textContent = "Username required";
         valid = false;
-    }
-     else if(name.value.length<4){
+    } else if (name.value.length < 4) {
         nameerror.textContent = "Username must be at least 4 characters long.";
         valid = false;
+    } else if (/^\d+$/.test(name.value)) {  
+        nameerror.textContent = "Username cannot be just numbers.";
+        valid = false;
+    } else if (containsSpaceOrSlash(name.value)) {  
+        nameerror.textContent = "Username cannot contain spaces or slashes.";
+        valid = false;
     }
- else if (/^\d+$/.test(name.value)) {  // Check if the username consists of only digits
-    nameerror.textContent = "Username cannot be just numbers.";
-    valid = false;
-}
+
+ 
     if (email.value.length === 0) {
         emailerror.textContent = "Email required";
         valid = false;
     } else if (!validateEmail(email.value)) {
         emailerror.textContent = "Please enter a valid email";
         valid = false;
+    } else if (containsSlashInEmail(email.value)) {
+        emailerror.textContent = "Email cannot contain a slash ('/')";
+        valid = false;
     }
+
+    
     if (password.value.length === 0) {
         passworderror.textContent = "Password required";
         valid = false;
     } else if (password.value.length < minlength) {
         passworderror.textContent = `Password must be at least ${minlength} characters long.`;
         valid = false;
-    }
-    else if(!hasNumber.test(password.value)){
+    } else if (!hasNumber.test(password.value)) {
         passworderror.textContent = "Password must contain at least one number.";
         valid = false;
-        }
-        else if(!hasSpecialChar.test(password.value)){
-        passworderror.textContent = "Password must contain atleast one special character.";
+    } else if (!hasSpecialChar.test(password.value)) {
+        passworderror.textContent = "Password must contain at least one special character.";
         valid = false;
-        }
-
-    else if (/\s/.test(password.value)) {  // Check for spaces
+    } else if (/\s/.test(password.value)) {  
         passworderror.textContent = "Password cannot contain spaces.";
         valid = false;
     }
+
     if (confirmPassword.value !== password.value) {
         cpasserror.textContent = "Passwords do not match";
         valid = false;
     }
-    
 
+  
     if (valid) {
         const emailValue = email.value;
         const passwordValue = password.value;
-        
+
         btn.disabled = true;
         btn.innerText = 'Creating account...';
 
-        // Disable input fields while the user is being created
         name.disabled = true;
         email.disabled = true;
         password.disabled = true;
@@ -105,22 +114,21 @@ form.addEventListener("submit", (event) => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log('Sign Up successful:', user);
-                
+
                 form.reset();
                 btn.disabled = false;
                 btn.innerText = 'Create an account';
-                // Re-enable input fields after the process
                 name.disabled = false;
                 email.disabled = false;
                 password.disabled = false;
                 confirmPassword.disabled = false;
-                
-                window.location.href="../../../index.html";
+
+                window.location.href = "../../../index.html";
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                
+
                 if (errorCode === 'auth/email-already-in-use') {
                     emailerror.textContent = 'This email is already registered.';
                 } else if (errorCode === 'auth/weak-password') {
@@ -145,19 +153,20 @@ email.addEventListener("input", () => emailerror.textContent = '');
 password.addEventListener("input", () => passworderror.textContent = '');
 confirmPassword.addEventListener("input", () => cpasserror.textContent = '');
 
+
 function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!re.test(String(email).toLowerCase())) {
         return false;
     }
 
- 
     const domainPart = email.split('@')[1];
-    const domainName = domainPart.split('.')[0]; 
+    const domainName = domainPart.split('.')[0];
     if (/^\d/.test(domainName)) {
-        return false; 
+        return false;
     }
 
-    return true; 
-};
+    return true;
+}
+

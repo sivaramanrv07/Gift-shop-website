@@ -241,49 +241,47 @@ window.onload = () => {
 
     searchButton.addEventListener('click', function () {
         const searchQuery = searchBar.value.trim();
-        console.log("Search button clicked!");  // Debugging line
+        console.log("Search button clicked!"); 
         if (searchQuery === '') {
             localStorage.removeItem('searchQuery'); 
             displayProducts(jsonData);  
         } else {
-            localStorage.setItem('searchQuery', searchQuery);  // Store query in localStorage
-            performSearch(searchQuery);  // Perform search based on the search query
+            localStorage.setItem('searchQuery', searchQuery); 
+            performSearch(searchQuery);  
         }
     });
 
-    // Allow search via Enter key
+   
     searchBar.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
-            searchButton.click();  // Trigger click when Enter is pressed
+            searchButton.click();  
         }
     });
 
-    // Handle clearing the search bar and showing all products again
+    
     searchBar.addEventListener('input', function () {
         const searchQuery = searchBar.value.trim();
         if (searchQuery === '') {
-            // If the search bar is cleared, show all products again
-            localStorage.removeItem('searchQuery');  // Clear search query in localStorage
-            displayProducts(jsonData);  // Display all products
+           
+            localStorage.removeItem('searchQuery'); 
+            displayProducts(jsonData);  
         } else {
-            performSearch(searchQuery);  // Perform search with the query
+            performSearch(searchQuery);  
         }
     });
 
-    // Load stored search query from localStorage when the page loads
     const storedQuery = localStorage.getItem('searchQuery');
     if (storedQuery) {
-        searchBar.value = storedQuery;  // Restore the search query in the search bar
-        performSearch(storedQuery);  // Perform search based on the stored query
+        searchBar.value = storedQuery;  
+        performSearch(storedQuery);  
     } else {
-        displayProducts(jsonData);  // Show all products if no search query is stored
+        displayProducts(jsonData);  
     }
 };
 
-// Function to display the products dynamically
 function displayProducts(data) {
     const slider = document.getElementById('product-slider');
-    slider.innerHTML = '';  // Clear previous products
+    slider.innerHTML = ''; 
 
     if (data.products.length === 0) {
         const noResultsMessage = document.createElement('div');
@@ -291,7 +289,7 @@ function displayProducts(data) {
         noResultsMessage.innerHTML = `<h3>No products found for your search.</h3>`;
         slider.appendChild(noResultsMessage);
     } else {
-        // Loop through each product and generate product cards
+       
         data.products.forEach(product => {
             const productDiv = document.createElement('div');
             productDiv.classList.add('products-box');
@@ -313,7 +311,7 @@ function displayProducts(data) {
     }
 }
 
-// Function to generate star icons based on rating
+
 function generateStars(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
@@ -328,64 +326,58 @@ function generateStars(rating) {
     return stars;
 }
 
-// Function to filter products based on search query
+
 function performSearch(query) {
-    console.log("Performing search with query:", query);  // Debugging line
+    console.log("Performing search with query:", query); 
     const filteredData = {
         "products": query === '' ? jsonData.products : jsonData.products.filter(product =>
             product.name.toLowerCase().includes(query.toLowerCase())
         )
     };
-    displayProducts(filteredData);  // Update product display
+    displayProducts(filteredData);  
 }
 
 function addToCart(name, image, price, link) {
-    // Check if the user is logged in
-    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true'; // Assumes 'true' means logged in
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true'; 
 
     if (!isLoggedIn) {
-        // If not logged in, show an alert and stop the function
         alert('You need to be logged in to add items to your cart.');
         return;
     }
 
-    // Get cart from localStorage or initialize it
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const product = { name, image, price, link };
 
-    // Check if the product is already in the cart
     const productIndex = cart.findIndex(item => item.name === name);
 
     if (productIndex === -1) {
-        // If the product is not already in the cart, add it
         cart.push(product);
-        localStorage.setItem('cart', JSON.stringify(cart)); // Save the updated cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart)); 
         alert(`${name} has been added to your cart!`);
     } else {
-        // If the product is already in the cart, show a message
         alert(`${name} is already in your cart!`);
     }
 }
 
 
 
-// Function to handle "Buy Now" button click
+
 function buyNow(name, image, price, link) {
-    // Check if the user is logged in
+  
     const userLoggedIn = localStorage.getItem('userLoggedIn');
 
     if (userLoggedIn === 'true') {
-        // If the user is logged in, proceed to the buy page (or payment page)
-        window.location.href = link;  // Redirect to the buy-now page (or payment page)
+      
+        window.location.href = link;  
     } else {
-        // If the user is not logged in, redirect to the login page
+        
         alert("You need to log in first to make a purchase.");
 
-        // Optionally store the redirect URL so the user can be redirected after login
+        
         localStorage.setItem('redirectUrl', link);
 
-        // Redirect to the login page
-        window.location.href = '../HTML Pages/login.html';  // Adjust the login page path if needed
+       
+        window.location.href = '../HTML Pages/login.html';  
     }
 }
 
