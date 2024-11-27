@@ -25,7 +25,7 @@
        
     </ul>
     <div class="nav-icons">
-        <a href="#"><img src="../../images/cart-icon.png"></a>
+        <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png"></a>
         <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
     </div>
   
@@ -69,38 +69,37 @@ const emailInput = document.getElementById('email');
 const numberInput = document.getElementById('number');
 const messageInput = document.getElementById('message');
 
-// Add an event listener to the submit button
-submitBtn.addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent form from submitting before validation
 
-    // Clear previous error messages
+submitBtn.addEventListener('click', (event) => {
+    event.preventDefault(); 
+
+    
     errorMessages.style.display = 'none';
     errorList.innerHTML = '';
 
-    // Array to collect any error messages
+    
     let errors = [];
 
-    // Validate the name input
+   
     if (!nameInput.value) {
         errors.push('Please enter your name.');
     }
 
-    // Validate the email input
+ 
     if (!emailInput.value || !validateEmail(emailInput.value)) {
         errors.push('Please enter a valid email address.');
     }
 
-    // Validate the phone number input
+    
     if (!numberInput.value || !numberInput.value.match(/[0-9]{3}-[0-9]{2}-[0-9]{3}/)) {
         errors.push('Please enter a valid phone number');
     }
 
-    // Validate the message input
+   
     if (!messageInput.value) {
         errors.push('Please enter a message.');
     }
 
-    // If there are errors, display them
     if (errors.length > 0) {
         errorMessages.style.display = 'block';
         errors.forEach(error => {
@@ -109,23 +108,23 @@ submitBtn.addEventListener('click', (event) => {
             errorList.appendChild(errorItem);
         });
     } else {
-        // If no errors, show the success message
+        
         successMessage.style.display = 'block';
 
-        // Optionally reset the form fields after a successful submission
+        
         nameInput.value = '';
         emailInput.value = '';
         numberInput.value = '';
         messageInput.value = '';
 
-        // Hide the success message after 3 seconds
+       
         setTimeout(() => {
             successMessage.style.display = 'none';
-        }, 3000); // 3000ms = 3 seconds
+        }, 3000); 
     }
 });
 
-// Email validation function
+
 function validateEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(email);

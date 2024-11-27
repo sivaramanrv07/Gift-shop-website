@@ -28,7 +28,7 @@
        
     </ul>
     <div class="nav-icons">
-        <a href="#"><img src="../../images/cart-icon.png"></a>
+        <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png"></a>
         <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
     </div>
     
@@ -55,7 +55,7 @@
     </section>
 </body>
 <script>
-    // Sample JSON data (you could also load this from an external file)
+   
     const reviewsData = [
         {
             "name": "James",
@@ -79,27 +79,26 @@
    
            function generateReviews(reviews) {
             const reviewContainer = document.getElementById('review-slider');
-            reviewContainer.innerHTML = ""; // Clear existing reviews
+            reviewContainer.innerHTML = ""; 
 
             reviews.forEach((review, index) => {
-                // Create the review box div
+                
                 const reviewBox = document.createElement('div');
                 reviewBox.classList.add('review-box');
 
-                // Create the image element
                 const imgElement = document.createElement('img');
                 imgElement.src = review.image;
                 imgElement.alt = review.name;
                 reviewBox.appendChild(imgElement);
 
-                // Create the stars and name section
+             
                 const starDiv = document.createElement('div');
                 starDiv.classList.add('start');
                 const nameElement = document.createElement('h3');
                 nameElement.textContent = review.name;
                 starDiv.appendChild(nameElement);
 
-                // Generate the stars based on rating
+            
                 const fullStars = Math.floor(review.rating);
                 const halfStars = review.rating % 1 >= 0.5;
 
@@ -117,12 +116,12 @@
 
                 reviewBox.appendChild(starDiv);
 
-                // Add the review text
+                
                 const reviewText = document.createElement('p');
                 reviewText.textContent = review.review;
                 reviewBox.appendChild(reviewText);
 
-                // Add Edit and Delete buttons
+            
                 const buttonDiv = document.createElement('div');
                 buttonDiv.classList.add('review-buttons');
                 const editButton = document.createElement('button');
@@ -138,12 +137,12 @@
 
                 reviewBox.appendChild(buttonDiv);
 
-                // Append the review box to the container
+               
                 reviewContainer.appendChild(reviewBox);
             });
         }
 
-        // Add a new review
+ 
         document.getElementById('add-review-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -159,22 +158,21 @@
                 review: reviewText
             };
 
-            reviewsData.push(newReview); // Add the new review to the data array
-            generateReviews(reviewsData); // Re-render the reviews
-            this.reset(); // Clear the form
+            reviewsData.push(newReview); 
+            generateReviews(reviewsData); 
+            this.reset(); 
         });
 
-        // Edit a review
+        
         function editReview(index) {
             const review = reviewsData[index];
 
-            // Prefill the form with the existing review data
             document.getElementById('review-name').value = review.name;
             document.getElementById('review-image').value = review.image;
             document.getElementById('review-rating').value = review.rating;
             document.getElementById('review-text').value = review.review;
 
-            // Modify the form submission logic to update the review
+           
             document.getElementById('add-review-form').addEventListener('submit', function (event) {
                 event.preventDefault();
 
@@ -183,18 +181,18 @@
                 review.rating = parseFloat(document.getElementById('review-rating').value);
                 review.review = document.getElementById('review-text').value;
 
-                generateReviews(reviewsData); // Re-render the reviews
-                this.reset(); // Clear the form
+                generateReviews(reviewsData); 
+                this.reset(); 
             }, { once: true });
         }
 
-        // Delete a review
+        
         function deleteReview(index) {
-            reviewsData.splice(index, 1); // Remove the review from the array
-            generateReviews(reviewsData); // Re-render the reviews
+            reviewsData.splice(index, 1); 
+            generateReviews(reviewsData); 
         }
 
-        // Initial rendering of reviews
+      
         generateReviews(reviewsData);
 
 
