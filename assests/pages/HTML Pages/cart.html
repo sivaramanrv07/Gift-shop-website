@@ -87,27 +87,29 @@ e
         }
 
         function placeOrder() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
 
-            if (cart.length === 0) {
-                alert('Your cart is empty. Please add items to your cart before placing an order.');
-                return;
-            }
+    const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
-            const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
-            const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
+    if (orderConfirmation) {
+        console.log('Storing order details:', cart, totalPrice);
+        
+        // Store order details
+        localStorage.setItem('orderDetails', JSON.stringify({
+            cart: cart,
+            totalPrice: totalPrice
+        }));
 
-            if (orderConfirmation) {
-                localStorage.setItem('orderDetails', JSON.stringify({
-                    cart: cart,
-                    totalPrice: totalPrice
-                }));
+        // Remove cart from localStorage
+        localStorage.removeItem('cart');
+        console.log('Cart removed from localStorage:', localStorage);
 
-                localStorage.removeItem('cart');
+        // Redirect to payment page (use absolute path)
+        window.location.href = '/HTML Pages/payement.html';  // Corrected path for production
+    }
+}
 
-                window.location.href = '../HTML Pages/payement.html'; 
-            }
-        }
 
         window.onload = function() {
            
