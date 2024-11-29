@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +18,7 @@
             <button id="order-btn" onclick="placeOrder()">Place Order</button>
         </div>
     </div>
-e
+
     <script>
         
         function displayCart() {
@@ -69,7 +68,6 @@ e
         // Update quantity in the cart
         function updateQuantity(index, change) {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
             const item = cart[index];
             item.quantity = Math.max(1, item.quantity + change); 
 
@@ -87,32 +85,33 @@ e
         }
 
         function placeOrder() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items to your cart before placing an order.');
+                return;
+            }
 
-    if (orderConfirmation) {
-        console.log('Storing order details:', cart, totalPrice);
-        
-        // Store order details
-        localStorage.setItem('orderDetails', JSON.stringify({
-            cart: cart,
-            totalPrice: totalPrice
-        }));
+            const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
+            const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
-        // Remove cart from localStorage
-        localStorage.removeItem('cart');
-        console.log('Cart removed from localStorage:', localStorage);
+            if (orderConfirmation) {
+                console.log('Storing order details:', cart, totalPrice);  // Debugging line
 
-        // Redirect to payment page (use absolute path)
-        window.location.href = '../HTML Pages/payement.html';  // Corrected path for production
-    }
-}
+                localStorage.setItem('orderDetails', JSON.stringify({
+                    cart: cart,
+                    totalPrice: totalPrice
+                }));
 
+                localStorage.removeItem('cart');
+                console.log('Cart removed from localStorage:', localStorage);  // Debugging line
+
+                // Corrected path for production (absolute path)
+                window.location.href ="/assests/pages/HTML Pages/payement.html";  // Corrected path for production
+            }
+        }
 
         window.onload = function() {
-           
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             cart.forEach(item => {
                 if (!item.quantity) {
@@ -126,6 +125,8 @@ e
     </script>
 </body>
 </html>
+
+
 
 
 
