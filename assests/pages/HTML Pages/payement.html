@@ -1,117 +1,298 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- custom css file link -->
-    <link rel="stylesheet" href="../../pages/CSS Pages/payement.css">
-
     <title>Payment Page</title>
+    <link rel="stylesheet" href="../CSS Pages/payement.css">
 </head>
 <body>
 
 <div class="container">
-
-    <form id="payment-form" onsubmit="handleSubmit(event)">
+    <form id="payment-form" onsubmit="handleSubmit(event)" novalidate>
         <div class="row">
-
+            <!-- Billing Section -->
             <div class="col">
-
-                <h3 class="title">billing address</h3>
-
+                <h3 class="title">Billing Address</h3>
                 <div class="inputBox">
-                    <span>full name :</span>
-                    <input type="text" placeholder="john deo" required>
-                </div>
-                <div class="inputBox">
-                    <span>email :</span>
-                    <input type="email" placeholder="example@example.com" required>
+                    <span>Full Name :</span>
+                    <input type="text" id="full-name" placeholder="siva raman" required>
+                    <div id="full-name-error" class="error-message"></div>
                 </div>
                 <div class="inputBox">
-                    <span>address :</span>
-                    <input type="text" placeholder="room - street - locality" required>
+                    <span>Email :</span>
+                    <input type="email" id="email" placeholder="example@example.com" required>
+                    <div id="email-error" class="error-message"></div>
                 </div>
                 <div class="inputBox">
-                    <span>city :</span>
-                    <input type="text" placeholder="mumbai" required>
+                    <span>Address :</span>
+                    <input type="text" id="address" placeholder="Room - Street - Locality" required>
+                    <div id="address-error" class="error-message"></div>
+                </div>
+                <div class="inputBox">
+                    <span>City :</span>
+                    <input type="text" id="city" placeholder="tiruvannamalai" required>
+                    <div id="city-error" class="error-message"></div>
                 </div>
 
-                <div class="flex">
-                    <div class="inputBox">
-                        <span>state :</span>
-                        <input type="text" placeholder="india" required>
-                    </div>
-                    <div class="inputBox">
-                        <span>zip code :</span>
-                        <input type="text" placeholder="123 456" required>
-                    </div>
+                <div class="inputBox">
+                    <span>State :</span>
+                    <input type="text" id="state" placeholder="Tamilnadu" required>
+                    <div id="state-error" class="error-message"></div>
                 </div>
 
+                <div class="inputBox">
+                    <span>Zip Code :</span>
+                    <input type="text" id="zip-code" placeholder="123 456" required>
+                    <div id="zip-code-error" class="error-message"></div>
+                </div>
             </div>
 
+            <!-- Payment Section -->
             <div class="col">
-
-                <h3 class="title">payment</h3>
-
+                <h3 class="title">Payment</h3>
                 <div class="inputBox">
-                    <span>cards accepted :</span>
-                    <img src="../../images/card -img.png">
-                </div>
-                <div class="inputBox">
-                    <span>name on card :</span>
-                    <input type="text" placeholder="mr. john deo" required>
-                </div>
-                <div class="inputBox">
-                    <span>credit card number :</span>
-                    <input type="tel" placeholder="xxxx xxxx xxxx xxxx"  maxlength="16"  pattern="[0-9\s]{13,19}" required>
-                </div>
-                <div class="inputBox">
-                    <span>exp month :</span>
-                    <input type="text" placeholder="january" required>
+                    <span>Select Payment Method:</span>
+                    <select id="payment-method" required>
+                        <option value="">Choose payment method</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="net-banking">Net Banking</option>
+                        <option value="upi">UPI</option>
+                        <option value="cod">Cash on Delivery</option>
+                    </select>
+                    <div id="payment-method-error" class="error-message"></div>
                 </div>
 
-                <div class="flex">
+                <div id="card-info" style="display: none;">
                     <div class="inputBox">
-                        <span>exp year :</span>
-                        <input type="tel" placeholder="YYYY" maxlength="4" required>
+                        <span>Card Number :</span>
+                        <input type="text" id="card-number" placeholder="xxxx xxxx xxxx xxxx" maxlength="16" required>
+                        <div id="card-number-error" class="error-message"></div>
+                    </div>
+                    <div class="inputBox">
+                        <span>Expiry Month :</span>
+                        <input type="text" id="exp-month" placeholder="MM" maxlength="2" required>
+                        <div id="exp-month-error" class="error-message"></div>
+                    </div>
+                    <div class="inputBox">
+                        <span>Expiry Year :</span>
+                        <input type="text" id="exp-year" placeholder="YYYY" maxlength="4" required>
+                        <div id="exp-year-error" class="error-message"></div>
                     </div>
                     <div class="inputBox">
                         <span>CVV :</span>
-                        <input type="tel" placeholder="1234"  maxlength="3"  pattern="([0-9]|[0-9]|[0-9])"required>
+                        <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                        <div id="cvv-error" class="error-message"></div>
                     </div>
                 </div>
 
+                <div id="net-banking-info" style="display: none;">
+                    <div class="inputBox">
+                        <span>Choose Your Bank :</span>
+                        <select id="bank-selection">
+                            <option value="bank1">Indian bank</option>
+                            <option value="bank2">State bank of india </option>
+                            <option value="bank3">Indian overseas bank</option>
+                        </select>
+                        <div id="bank-selection-error" class="error-message"></div>
+                    </div>
+                </div>
+
+                <div id="upi-info" style="display: none;">
+                    <div class="inputBox">
+                        <span>Enter UPI ID :</span>
+                        <input type="text" id="upi-id" placeholder="example@upi" required>
+                        <div id="upi-id-error" class="error-message"></div>
+                    </div>
+                </div>
             </div>
-    
         </div>
 
         <input type="submit" value="Submit" class="submit-btn">
-
     </form>
+</div>
 
-    
-    <div id="confirmation-message" style="display: none; text-align: center;">
-        <h2>Your order has been placed successfully!</h2>
-        <img src="../../images/sucess.png" alt="Thank You" style="width: 200px; height: auto;">
+<!-- Success Modal -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-header">Payment Successful!</div>
+        <div class="modal-body">
+            Your order has been placed successfully.
+        </div>
+        <button class="btn-close" onclick="closeModal()">Close</button>
     </div>
-
 </div>
 
 <script>
-    // Handle form submission
+    // Function to handle form submission
     function handleSubmit(event) {
-        event.preventDefault(); // Prevent the form from submitting in the traditional way
+        event.preventDefault(); // Prevent the form from submitting the usual way
 
-        // Hide the form
-        document.getElementById('payment-form').style.display = 'none';
+        // Reset previous error messages
+        clearErrors();
 
-        // Display the confirmation message and thank you image
-        document.getElementById('confirmation-message').style.display = 'block';
+        // Get all the form data
+        const fullName = document.getElementById('full-name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const zipCode = document.getElementById('zip-code').value.trim();
+        const paymentMethod = document.getElementById('payment-method').value;
+        const cardNumber = document.getElementById('card-number').value.trim();
+        const expMonth = document.getElementById('exp-month').value.trim();
+        const expYear = document.getElementById('exp-year').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        const bankSelection = document.getElementById('bank-selection').value;
+        const upiId = document.getElementById('upi-id').value.trim();
+
+        // Validation checks
+        let isValid = true;
+
+        // Validate Billing Information
+        if (!fullName) {
+            showError('full-name-error', 'Full name is required.');
+            isValid = false;
+        }
+        if (!email || !validateEmail(email)) {
+            showError('email-error', 'Please enter a valid email address.');
+            isValid = false;
+        }
+        if (!address) {
+            showError('address-error', 'Address is required.');
+            isValid = false;
+        }
+        if (!city) {
+            showError('city-error', 'City is required.');
+            isValid = false;
+        }
+        if (!state) {
+            showError('state-error', 'State is required.');
+            isValid = false;
+        }
+        if (!zipCode || !validateZipCode(zipCode)) {
+            showError('zip-code-error', 'Please enter a valid Zip Code.');
+            isValid = false;
+        }
+
+        // Validate Payment Method and Payment Information
+        if (!paymentMethod) {
+            showError('payment-method-error', 'Please select a payment method.');
+            isValid = false;
+        } else {
+            // Based on payment method, validate the required fields
+            if (paymentMethod === 'card') {
+                if (!cardNumber || !validateCardNumber(cardNumber)) {
+                    showError('card-number-error', 'Please enter a valid card number.');
+                    isValid = false;
+                }
+                if (!expMonth || !validateMonth(expMonth)) {
+                    showError('exp-month-error', 'Please enter a valid expiry month.');
+                    isValid = false;
+                }
+                if (!expYear || !validateYear(expYear)) {
+                    showError('exp-year-error', 'Please enter a valid expiry year.');
+                    isValid = false;
+                }
+                if (!cvv || !validateCVV(cvv)) {
+                    showError('cvv-error', 'Please enter a valid CVV.');
+                    isValid = false;
+                }
+            } else if (paymentMethod === 'net-banking' && bankSelection === '') {
+                showError('bank-selection-error', 'Please select a bank.');
+                isValid = false;
+            } else if (paymentMethod === 'upi' && !upiId) {
+                showError('upi-id-error', 'Please enter a valid UPI ID.');
+                isValid = false;
+            }
+        }
+
+        // If everything is valid, show the success modal
+        if (isValid) {
+        // Show a loading message or something here (optional)
+        setTimeout(function() {
+            showModal();  // Show the success modal after a 1-second delay
+        }, 1000); // 1000ms = 1 second
     }
+}
+
+    // Show error message next to the input field
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    // Clear all error messages
+    function clearErrors() {
+        const errorMessages = document.querySelectorAll('.error-message');
+        errorMessages.forEach(error => {
+            error.textContent = '';
+            error.style.display = 'none';
+        });
+    }
+
+    // Show the modal
+    function showModal() {
+        const modal = document.getElementById('confirmation-modal');
+        modal.style.display = 'block';
+    }
+
+    // Close the modal and reset the form if needed
+    function closeModal() {
+        const modal = document.getElementById('confirmation-modal');
+        modal.style.display = 'none';
+        // Optionally reset the form here if needed
+        document.getElementById('payment-form').reset();
+        clearErrors();  // Reset error messages as well
+    }
+
+    // Validate Email, Zip, Card Number, Month, Year, CVV
+    function validateEmail(email) {
+        email = email.trim();
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email);
+    }
+
+    function validateZipCode(zip) {
+        const zipRegex = /^\d{6}$/;  // 6 digits only
+        return zipRegex.test(zip);
+    }
+
+    function validateCardNumber(cardNumber) {
+        const cardRegex = /^\d{16}$/;
+        return cardRegex.test(cardNumber);
+    }
+
+    function validateMonth(month) {
+        const monthRegex = /^(0[1-9]|1[0-2])$/;
+        return monthRegex.test(month);
+    }
+
+    function validateYear(year) {
+        const yearRegex = /^\d{4}$/;
+        return yearRegex.test(year);
+    }
+
+    function validateCVV(cvv) {
+        const cvvRegex = /^\d{3}$/;
+        return cvvRegex.test(cvv);
+    }
+
+    // Show/hide the relevant payment sections based on selected payment method
+    document.getElementById('payment-method').addEventListener('change', function () {
+        const selectedMethod = this.value;
+        document.getElementById('card-info').style.display = selectedMethod === 'card' ? 'block' : 'none';
+        document.getElementById('net-banking-info').style.display = selectedMethod === 'net-banking' ? 'block' : 'none';
+        document.getElementById('upi-info').style.display = selectedMethod === 'upi' ? 'block' : 'none';
+    });
 </script>
 
 </body>
 </html>
+
+
+
+
