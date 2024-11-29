@@ -1,0 +1,24 @@
+ {
+    "sectionId": "Features",
+    "heading": "Our Features",
+    "features": [
+        {
+            "title": "Free Delivery",
+            "image": "../../images/free delivery icon.jpeg",
+            "description": "Get free delivery on all orders, with no minimum required! <span class='more-text'> We offer fast and reliable delivery to your doorstep, ensuring your products arrive on time.</span>",
+            "buttonText": "Read More"
+        },
+        {
+            "title": "Replacement",
+            "image": "../../images/replacement icon.jpeg",
+            "description": "If you share some details about the product you're replacing, I can tailor it more precisely. <span class='more-text'> Our replacement policy is simple, efficient, and ensures that you always get the right product.</span>",
+            "buttonText": "Read More"
+        },
+        {
+            "title": "Easy Payment",
+            "image": "../../images/payement icon.jpeg",
+            "description": "This can work for anything from an online service to a point-of-sale system. <span class='more-text'> We offer secure and multiple payment methods including credit cards, PayPal, and more.</span>",
+            "buttonText": "Read More"
+        }
+    ]
+}
