@@ -85,31 +85,38 @@
         }
 
         function placeOrder() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            if (cart.length === 0) {
-                alert('Your cart is empty. Please add items to your cart before placing an order.');
-                return;
-            }
+    if (cart.length === 0) {
+        alert('Your cart is empty. Please add items to your cart before placing an order.');
+        return;
+    }
 
-            const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
-            const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
+    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
+    const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
-            if (orderConfirmation) {
-                console.log('Storing order details:', cart, totalPrice);  // Debugging line
+    if (orderConfirmation) {
+        console.log('Storing order details:', cart, totalPrice);  // Debugging line
 
-                localStorage.setItem('orderDetails', JSON.stringify({
-                    cart: cart,
-                    totalPrice: totalPrice
-                }));
+        // Store order details in localStorage
+        localStorage.setItem('orderDetails', JSON.stringify({
+            cart: cart,
+            totalPrice: totalPrice
+        }));
 
-                localStorage.removeItem('cart');
-                console.log('Cart removed from localStorage:', localStorage);  // Debugging line
+        // Set a 1-second delay before clearing the cart and redirecting to the payment page
+        setTimeout(() => {
+            // Clear the cart from localStorage
+            localStorage.removeItem('cart');
+            console.log('Cart removed from localStorage:', localStorage);  // Debugging line
 
-                // Corrected path for production (absolute path)
-                window.location.href ="/assests/pages/HTML Pages/payement.html";  // Corrected path for production
-            }
-        }
+            // Redirect to the payment page (change the URL as needed)
+            window.location.href = '../HTML Pages/payement.html';  // Replace with your actual payment page URL
+        }, 1000);  // 1000 milliseconds = 1 second
+    }
+}
+
+
 
         window.onload = function() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];

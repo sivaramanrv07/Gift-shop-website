@@ -209,8 +209,11 @@
             }
         }
 
-      
-}
+        // If everything is valid, show the modal
+        if (isValid) {
+            showModal();  // Show the payment success modal
+        }
+    }
 
     // Show error message next to the input field
     function showError(elementId, message) {
@@ -228,20 +231,21 @@
         });
     }
 
-    // Show the modal
     function showModal() {
         const modal = document.getElementById('confirmation-modal');
         modal.style.display = 'block';
     }
 
-    // Close the modal and reset the form if needed
+    // Close the modal and redirect to the home page
     function closeModal() {
         const modal = document.getElementById('confirmation-modal');
         modal.style.display = 'none';
-        // Optionally reset the form here if needed
-        document.getElementById('payment-form').reset();
-        clearErrors();  // Reset error messages as well
+
+        // Clear the cart after payment success and redirect to home page
+        localStorage.removeItem('product');  // Remove the product from localStorage
+        window.location.href = '/';  // Redirect to the home page (you can change this URL as needed)
     }
+  
 
     // Validate Email, Zip, Card Number, Month, Year, CVV
     function validateEmail(email) {
@@ -286,6 +290,7 @@
 
 </body>
 </html>
+
 
 
 
