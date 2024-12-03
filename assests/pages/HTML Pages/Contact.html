@@ -1,135 +1,150 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gift shop website </title>
+    <title>Giftopia - Contact</title>
 
     <link rel="stylesheet" href="../../../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
+
 <body>
-    <!------------Header section starts -------------->
-<header>
-    <a href="#" class="logo"><img src="../../images/logo-icon.png" alt="" class="logo"></a>
-    <div class="name">Giftopia</div>
-    
-       
-      <ul class="nav-menu">
-       <li><a href="../../../index.html" class="Home">Home</a></li>
-       <li><a href="../../pages/HTML Pages/Feature.html" class="Features">Features</a></li>
-       <li><a href="../../pages/HTML Pages/Product.html" class="Product">products</a></li>
-       <li><a href="../../pages/HTML Pages/Review.html" class="Review">Review</a></li>
-        <li><a href="../../pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
-       
-    </ul>
-    <div class="nav-icons">
-        <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png"></a>
-        <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
-    </div>
-  
+    <!-- Header section -->
+    <header>
+        <a href="#" class="logo"><img src="../../images/logo-icon.png" alt="Logo" class="logo"></a>
+        <div class="name">Giftopia</div>
 
-</header>
+        <ul class="nav-menu">
+            <li><a href="/index.html" class="Home">Home</a></li>
+        <li><a href="/assests/pages/HTML Pages/Product.html" class="product">products</a></li>
+        <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
+        <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
+         <li><a href="/assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
+        </ul>
 
-<section id="Contact" class="Contact">
-    <h1 class="touch"> Customer<span>Get in touch</span></h1>
+        <div class="nav-icons">
+            <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png" alt="Cart"></a>
+            <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png" alt="User"></a>
+        </div>
+    </header>
 
-    <div class="contact-details">
-        <div class="contact-box">
-            <div class="left-side"></div>
-            <div class="right-side">
-                <h2>Send your message</h2>
-                <input type="text" placeholder="Your name" class="value" id="name">
-                <input type="email" placeholder="Your email" class="value" id="email">
-                <input type="tel" placeholder="Your number" class="value" id="number"pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
-                <textarea class="value" placeholder="Message" id="message"></textarea>
-                <button class="btns" id="submitBtn">Send</button>
+    <!-- Contact Section -->
+    <section id="Contact" class="Contact">
+        <h1 class="touch">Customer <span>Get in Touch</span></h1>
 
-                <div id="errorMessages" style="color: red; display: none;">
-                    <ul id="errorList"></ul>
-                </div>
+        <div class="contact-details">
+            <div class="contact-box">
+                <div class="left-side"></div>
+                <div class="right-side">
+                    <h2>Send your message</h2>
+                    <input type="text" placeholder="Your name" class="value" id="name" required>
+                    <span class="error" id="nameError" style="color: red;"></span>
 
-                <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 40px;">
-                    Message sent successfully!
+                    <input type="email" placeholder="Your email" class="value" id="email" required>
+                    <span class="error" id="emailError" style="color: red;"></span>
+
+                    <input type="tel" placeholder="Your number (xxx-xx-xxx)" class="value" id="number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
+                    <span class="error" id="numberError" style="color: red;"></span>
+
+                    <textarea class="value" placeholder="Message" id="message" required></textarea>
+                    <span class="error" id="messageError" style="color: red;"></span>
+
+                    <button class="btns" id="submitBtn">Send</button>
+
+                    <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 20px;">
+                        Message sent successfully!
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-   
-</body>
-<script>
-    const submitBtn = document.getElementById('submitBtn');
-const successMessage = document.getElementById('successMessage');
-const errorMessages = document.getElementById('errorMessages');
-const errorList = document.getElementById('errorList');
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const numberInput = document.getElementById('number');
-const messageInput = document.getElementById('message');
+    </section>
 
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const numberError = document.getElementById('numberError');
+        const messageError = document.getElementById('messageError');
 
-submitBtn.addEventListener('click', (event) => {
-    event.preventDefault(); 
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const numberInput = document.getElementById('number');
+        const messageInput = document.getElementById('message');
 
-    
-    errorMessages.style.display = 'none';
-    errorList.innerHTML = '';
-
-    
-    let errors = [];
+      
+        submitBtn.addEventListener('click', (event) => {
+            event.preventDefault(); 
 
    
-    if (!nameInput.value) {
-        errors.push('Please enter your name.');
-    }
+            nameError.textContent = '';
+            emailError.textContent = '';
+            numberError.textContent = '';
+            messageError.textContent = '';
 
- 
-    if (!emailInput.value || !validateEmail(emailInput.value)) {
-        errors.push('Please enter a valid email address.');
-    }
+            let hasError = false;
 
-    
-    if (!numberInput.value || !numberInput.value.match(/[0-9]{3}-[0-9]{2}-[0-9]{3}/)) {
-        errors.push('Please enter a valid phone number');
-    }
+            const nameRegex = /^[A-Za-z]{3,}(\s[A-Za-z]+)*$/;  
 
-   
-    if (!messageInput.value) {
-        errors.push('Please enter a message.');
-    }
+             let nameValue = nameInput.value.trim();
+            if (!nameInput.value) {
+                nameError.textContent = 'Please enter your name.';
+                hasError = true;
+            } else if (!nameRegex.test(nameInput.value)) {
+                nameError.textContent = 'Please enter a valid name.';
+                hasError = true;
+            }
 
-    if (errors.length > 0) {
-        errorMessages.style.display = 'block';
-        errors.forEach(error => {
-            const errorItem = document.createElement('li');
-            errorItem.textContent = error;
-            errorList.appendChild(errorItem);
+            if (!emailInput.value) {
+                emailError.textContent = 'Please enter your email address.';
+                hasError = true;
+            } else if (!validateEmail(emailInput.value)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                hasError = true;
+            }
+
+            
+            const numberRegex = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/; 
+
+          if (!numberInput.value) {
+            numberError.textContent = 'Please enter your phone number.';
+           hasError = true;
+        }       
+        else if (!numberRegex.test(numberInput.value)) {
+            numberError.textContent = 'Please enter a valid phone number ).';
+           hasError = true;
+         }
+        
+            if (!messageInput.value) {
+                messageError.textContent = 'Please enter a message.';
+                hasError = true;
+            }
+
+            if (!hasError) {
+                successMessage.style.display = 'block';
+
+                // Clear the form
+                nameInput.value = '';
+                emailInput.value = '';
+                numberInput.value = '';
+                messageInput.value = '';
+
+              
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
         });
-    } else {
-        
-        successMessage.style.display = 'block';
 
-        
-        nameInput.value = '';
-        emailInput.value = '';
-        numberInput.value = '';
-        messageInput.value = '';
+      
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return re.test(email);
+        }
+    </script>
+</body>
 
-       
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000); 
-    }
-});
-
-
-function validateEmail(email) {
-    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test(email);
-}
-   
-</script>
-  </section>
 </html>
+
