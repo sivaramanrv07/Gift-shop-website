@@ -14,7 +14,7 @@
         <div id="cart-items" class="cart-items"></div>
 
         <div class="cart-summary">
-            <p id="total-price">Total Price: $0.00</p>
+            <p id="total-price">Total Price: ₹0.00</p>
             <button id="order-btn" onclick="placeOrder()">Place Order</button>
         </div>
     </div>
@@ -31,7 +31,7 @@
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty!</p>';
-                totalPriceElement.innerHTML = 'Total Price: $0.00';
+                totalPriceElement.innerHTML = 'Total Price: ₹0.00';
                 orderButton.disabled = true;
                 return;
             }
@@ -42,11 +42,15 @@
                 const cartItem = document.createElement('div');
                 cartItem.classList.add('cart-item');
 
+                // Ensure the price is a valid number and format it with ₹
+                const itemPrice = parseFloat(item.price.replace('₹', '').trim());
+                const itemTotal = (itemPrice * item.quantity).toFixed(2);
+
                 cartItem.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
                     <div class="item-info">
                         <h3>${item.name}</h3>
-                        <p class="item-price">$${(parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity).toFixed(2)}</p>
+                        <p class="item-price">₹${itemTotal}</p>
                         <div class="quantity-control">
                             <button class="quantity-button" onclick="updateQuantity(${index}, -1)">-</button>
                             <input type="number" class="quantity-input" value="${item.quantity}" min="1" readonly>
@@ -58,10 +62,11 @@
 
                 cartItemsContainer.appendChild(cartItem);
 
-                totalPrice += parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity;
+                // Update total price
+                totalPrice += itemPrice * item.quantity;
             });
 
-            totalPriceElement.innerHTML = `Total Price: $${totalPrice.toFixed(2)}`;
+            totalPriceElement.innerHTML = `Total Price: ₹${totalPrice.toFixed(2)}`;
             orderButton.disabled = false;
         }
 
@@ -85,38 +90,36 @@
         }
 
         function placeOrder() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    if (cart.length === 0) {
-        alert('Your cart is empty. Please add items to your cart before placing an order.');
-        return;
-    }
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items to your cart before placing an order.');
+                return;
+            }
 
-    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '').replace('/-', '').trim()) * item.quantity, 0);
-    const orderConfirmation = confirm(`Your total is $${totalPrice.toFixed(2)}. Do you want to place the order?`);
+            const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('₹', '').trim()) * item.quantity, 0);
+            const orderConfirmation = confirm(`Your total is ₹${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
-    if (orderConfirmation) {
-        console.log('Storing order details:', cart, totalPrice);  // Debugging line
+            if (orderConfirmation) {
+                console.log('Storing order details:', cart, totalPrice);  // Debugging line
 
-        // Store order details in localStorage
-        localStorage.setItem('orderDetails', JSON.stringify({
-            cart: cart,
-            totalPrice: totalPrice
-        }));
+                // Store order details in localStorage
+                localStorage.setItem('orderDetails', JSON.stringify({
+                    cart: cart,
+                    totalPrice: totalPrice
+                }));
 
-        // Set a 1-second delay before clearing the cart and redirecting to the payment page
-        setTimeout(() => {
-            // Clear the cart from localStorage
-            localStorage.removeItem('cart');
-            console.log('Cart removed from localStorage:', localStorage);  // Debugging line
+                // Set a 1-second delay before clearing the cart and redirecting to the payment page
+                setTimeout(() => {
+                    // Clear the cart from localStorage
+                    localStorage.removeItem('cart');
+                    console.log('Cart removed from localStorage:', localStorage);  // Debugging line
 
-            // Redirect to the payment page (change the URL as needed)
-            window.location.href = '../HTML Pages/payement.html';  // Replace with your actual payment page URL
-        }, 1000);  // 1000 milliseconds = 1 second
-    }
-}
-
-
+                    // Redirect to the payment page (change the URL as needed)
+                    window.location.href = '../HTML Pages/payement.html';  // Replace with your actual payment page URL
+                }, 1000);  // 1000 milliseconds = 1 second
+            }
+        }
 
         window.onload = function() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -132,6 +135,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 

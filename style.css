@@ -92,10 +92,6 @@ margin-bottom: 15px;
 }
 
 
-.search-button:hover {
-   background-color:rgb(255, 166, 0);
-}
-
 .search-button:focus {
    outline: none;
 }
