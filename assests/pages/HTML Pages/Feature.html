@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="/assests/pages/JAVASCRIPT Pages/Features.js"></script>
+    <script src="/assests/pages/JAVASCRIPT Pages/user.js"></script>
     
 </head>
 <body>
@@ -19,7 +20,7 @@
     
        
       <ul class="nav-menu">
-        <li><a href="./index.html" class="Home">Home</a></li>
+        <li><a href="/index.html" class="Home">Home</a></li>
         <li><a href="/assests/pages/HTML Pages/Product.html" class="product">products</a></li>
         <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
         <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
@@ -28,8 +29,14 @@
     </ul>
     <div class="nav-icons">
         <a href="../HTML Pages/cart.html"><img src="../../images/cart-icon.png"></a>
-        <a href="../HTML Pages/login.html"><img src="../../images/user -icon.png"></a>
+        <a id="userIconLink" href="javascript:void(0)">
+            <img id="userIcon" src="/assests/images/user -icon.png" alt="User Icon">
+        </a>
+        <div id="loginLogoutButtonContainer" style="display: none;">
+            <button id="loginLogoutButton">Login</button>
+        </div>
     </div>
+
    
 </header>
 

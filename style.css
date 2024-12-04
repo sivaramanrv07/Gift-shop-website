@@ -736,13 +736,30 @@ textarea{
    background-color: #e53935;
 }
 
-.carousel-container {
-   position: relative;
-   width: 100%;
-   max-width: 900px;
-   margin: 20px auto;
-   overflow: hidden;
+#loginLogoutButtonContainer {
+   position: absolute;
+   top: 20px;  
+   right: 50px;
+   padding: 10px;
+   border-radius: 5px;
+   transition: opacity 0.3s ease;
+   display: none;
 }
+
+#loginLogoutButton {
+   padding: 10px 20px;
+   background-color:rgb(226, 174, 76);
+   color: white;
+   border: none;
+   border-radius: 5px;
+   font-size: 16px;
+   cursor: pointer;
+}
+
+#loginLogoutButton:hover {
+   background-color: orange;
+}
+
 
 
 

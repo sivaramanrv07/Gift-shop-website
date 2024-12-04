@@ -1,59 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gift shop website </title>
-
+    <title>Gift Shop Website</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
     <!------------Header section starts -------------->
-<header>
-    <a href="/index.html" class="logo"><img src="./assests/images/logo-icon.png" alt="" class="logo"></a>
-    <div class="name">Giftopia</div>
-    
-       
-      <ul class="nav-menu">
-       <li><a href="./index.html" class="Home">Home</a></li>
-       <li><a href="./assests/pages/HTML Pages/Product.html" class="product">products</a></li>
-       <li><a href="./assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
-       <li><a href="./assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
-        <li><a href="./assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
-       
-    </ul>
-    <div class="nav-icons">
-        <a href="./assests/pages/HTML Pages/cart.html"><img src="assests/images/cart-icon.png"></a>
-        <a href="./assests/pages/HTML Pages/login.html"><img src="assests/images/user -icon.png"></a>
-    </div>
 
-    
-</header>
+    <header>
+        <a href="/index.html" class="logo"><img src="./assests/images/logo-icon.png" alt="Logo" class="logo"></a>
+        <div class="name">Giftopia</div>
 
-<!----------------Header section end ----------------->
+        <ul class="nav-menu">
+            <li><a href="./index.html" class="Home">Home</a></li>
+            <li><a href="./assests/pages/HTML Pages/Product.html" class="product">Products</a></li>
+            <li><a href="./assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
+            <li><a href="./assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
+            <li><a href="./assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
+        </ul>
 
-<!----------------Home section starts --------------->
-<section id="Home" class="main-home">
-    <div class="main-text">
-        <h5>The Best Gift shop</h5>
-        <h1>Creating Happiness<br>For Your Loved Ones
-        </h1>
-        <p>Browse through some of the largest collection of gifts to brighten your day</p>
+        <div class="nav-icons">
+            <a href="./assests/pages/HTML Pages/cart.html"><img src="assests/images/cart-icon.png" alt="Cart"></a>
+            <a id="userIconLink" href="javascript:void(0)">
+                <img id="userIcon" src="./assests/images/user -icon.png" alt="User Icon">
+            </a>
+            <div id="loginLogoutButtonContainer" style="display: none;">
+                <button id="loginLogoutButton">Login</button>
+            </div>
+        </div>
+    </header>
 
-        <a href="./assests/pages/HTML Pages/Product.html"class="main-btn">choose a gift</a>
-    </div>
-</section>
+    <!----------------Header section end ----------------->
 
+    <!----------------Home section starts --------------->
 
-<!---------------Home section end----------------->
+    <section id="Home" class="main-home">
+        <div class="main-text">
+            <h5>The Best Gift Shop</h5>
+            <h1>Creating Happiness<br>For Your Loved Ones</h1>
+            <p>Browse through some of the largest collection of gifts to brighten your day</p>
+            <a href="./assests/pages/HTML Pages/Product.html" class="main-btn">Choose a Gift</a>
+        </div>
+    </section>
+
+    <!---------------Home section end----------------->
+
+  
+    <script src="./assests/pages/JAVASCRIPT Pages/user.js"></script>
+  
 </body>
-<script>
-    window.history.pushState(null, null, window.location.href);
-window.addEventListener('popstate', function () {
-    window.history.pushState(null, null, window.location.href);
-    
-});
-</script>
 </html>
+
+
