@@ -19,7 +19,6 @@ function displayCart() {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
 
-       
         const itemPrice = parseFloat(item.price.replace('₹', '').trim());
         const itemTotal = (itemPrice * item.quantity).toFixed(2);
 
@@ -38,8 +37,6 @@ function displayCart() {
         `;
 
         cartItemsContainer.appendChild(cartItem);
-
-     
         totalPrice += itemPrice * item.quantity;
     });
 
@@ -51,7 +48,6 @@ function updateQuantity(index, change) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart[index];
     
-  
     item.quantity = Math.max(1, Math.min(10, item.quantity + change));
 
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -81,15 +77,13 @@ function placeOrder() {
     if (orderConfirmation) {
         console.log('Storing order details:', cart, totalPrice);  
 
-     
         localStorage.setItem('orderDetails', JSON.stringify({
             cart: cart,
             totalPrice: totalPrice
         }));
 
-      
         setTimeout(() => {
-          
+            
             localStorage.removeItem('cart');
             console.log('Cart removed from localStorage:', localStorage); 
 
@@ -97,6 +91,15 @@ function placeOrder() {
             window.location.href = '../HTML Pages/payement.html';  
         }, 1000);  
     }
+}
+
+
+function logout() {
+ 
+    localStorage.removeItem('cart');
+    console.log('User logged out and cart cleared from localStorage');
+
+    window.location.href = 'login.html';  
 }
 
 window.onload = function() {
