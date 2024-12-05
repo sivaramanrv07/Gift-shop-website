@@ -41,3 +41,16 @@ window.onload = () => {
         console.log("User is not logged in");
     }
 };
+
+
+function checkLogin() {
+    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; 
+
+    if (isLoggedIn) {
+      
+        window.location.href = "/assests/pages/HTML Pages/cart.html";
+    } else {
+      
+        alert("Please log in to access your cart.");
+    }
+}

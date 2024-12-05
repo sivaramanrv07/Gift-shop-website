@@ -1,5 +1,5 @@
 window.onload = () => {
-    // Select elements for login/logout functionality
+    
     const userIconLink = document.getElementById('userIconLink');
     const loginLogoutButtonContainer = document.getElementById('loginLogoutButtonContainer');
     const loginLogoutButton = document.getElementById('loginLogoutButton');
@@ -7,9 +7,9 @@ window.onload = () => {
     const searchButton = document.getElementById('searchButton'); 
     const slider = document.getElementById('product-slider');
   
-    let jsonData = {};  // Variable to store the product data
+    let jsonData = {};  
 
-    // Handle the user login/logout display
+
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
     userIconLink.onclick = function() {
@@ -31,32 +31,32 @@ window.onload = () => {
         }
     };
 
-    // Fetch product data and initialize search functionality
+   
     fetch('../JSON Pages/product.json') 
         .then(response => response.json())
         .then(data => {
             jsonData = data; 
-            initSearchAndDisplay(jsonData);  // Initialize search functionality
+            initSearchAndDisplay(jsonData);  
         })
         .catch(error => console.error('Error loading JSON:', error));
 
-    // Function to initialize search functionality
+   
     function initSearchAndDisplay(data) {
         searchButton.addEventListener('click', function () {
             const searchQuery = searchBar.value.trim();
             console.log("Search button clicked!");
             if (searchQuery === '') {
                 localStorage.removeItem('searchQuery');
-                displayProducts(data);  // Display all products if no search
+                displayProducts(data);  
             } else {
                 localStorage.setItem('searchQuery', searchQuery);
-                performSearch(data, searchQuery);  // Filter products based on search query
+                performSearch(data, searchQuery);  
             }
         });
 
         searchBar.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                searchButton.click();  // Trigger search on pressing Enter
+                searchButton.click();  
             }
         });
 
@@ -64,24 +64,24 @@ window.onload = () => {
             const searchQuery = searchBar.value.trim();
             if (searchQuery === '') {
                 localStorage.removeItem('searchQuery');
-                displayProducts(data);  // Display all products if search is cleared
+                displayProducts(data);  
             } else {
-                performSearch(data, searchQuery);  // Perform search as user types
+                performSearch(data, searchQuery);  
             }
         });
 
         const storedQuery = localStorage.getItem('searchQuery');
         if (storedQuery) {
             searchBar.value = storedQuery;
-            performSearch(data, storedQuery);  // Perform search with the stored query
+            performSearch(data, storedQuery); 
         } else {
-            displayProducts(data);  // Display all products if no stored query
+            displayProducts(data);  
         }
     }
 
-    // Function to display the products
+   
     function displayProducts(data) {
-        slider.innerHTML = '';  // Clear existing products
+        slider.innerHTML = '';  
 
         if (data.products.length === 0) {
             const noResultsMessage = document.createElement('div');
@@ -109,7 +109,7 @@ window.onload = () => {
         }
     }
 
-    // Function to generate stars for product ratings
+    
     function generateStars(rating) {
         let stars = '';
         for (let i = 1; i <= 5; i++) {
@@ -124,7 +124,7 @@ window.onload = () => {
         return stars;
     }
 
-    // Function to perform search on products
+    
     function performSearch(data, query) {
         console.log("Performing search with query:", query);
         const filteredData = {
@@ -132,10 +132,10 @@ window.onload = () => {
                 product.name.toLowerCase().includes(query.toLowerCase())
             )
         };
-        displayProducts(filteredData);  // Display filtered products
+        displayProducts(filteredData);  
     }
 
-    // Add item to the cart
+   
     window.addToCart = function(name, image, price, link) {
         const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
@@ -152,24 +152,36 @@ window.onload = () => {
 
         if (productIndex === -1) {
             cart.push(product);
-            localStorage.setItem('cart', JSON.stringify(cart));  // Store cart in localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));  
             alert(`${name} has been added to your cart!`);
         } else {
             alert(`${name} is already in your cart!`);
         }
     }
 
-    // Function to handle 'Buy Now' functionality
+   
     window.buyNow = function(name, image, price, link) {
         const userLoggedIn = localStorage.getItem('userLoggedIn');
 
         if (userLoggedIn === 'true') {
-            window.location.href = link;  // Redirect to product page if logged in
+            window.location.href = link;  
         } else {
             alert("You need to log in first to make a purchase.");
             localStorage.setItem('redirectUrl', link);
-            window.location.href = '../HTML Pages/login.html';  // Redirect to login page if not logged in
+            window.location.href = '../HTML Pages/login.html';  
         }
     }
 };
+
+function checkLogin() {
+    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; 
+
+    if (isLoggedIn) {
+      
+        window.location.href = "/assests/pages/HTML Pages/cart.html";
+    } else {
+      
+        alert("Please log in to access your cart.");
+    }
+}
 
