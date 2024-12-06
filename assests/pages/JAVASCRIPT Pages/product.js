@@ -1,5 +1,5 @@
 window.onload = () => {
-    
+  
     const userIconLink = document.getElementById('userIconLink');
     const loginLogoutButtonContainer = document.getElementById('loginLogoutButtonContainer');
     const loginLogoutButton = document.getElementById('loginLogoutButton');
