@@ -54,3 +54,6 @@ function checkLogin() {
         alert("Please log in to access your cart.");
     }
 }
+
+
+
