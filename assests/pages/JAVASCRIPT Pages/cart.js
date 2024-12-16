@@ -92,7 +92,7 @@ function placeOrder() {
             console.log('Cart removed from localStorage:', localStorage); 
 
            
-            window.location.href = '../HTML Pages/payment.html';  
+            window.location.href = '../HTML Pages/payement.html';  
         }, 1000);  
     }
 }

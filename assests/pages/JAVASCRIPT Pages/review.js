@@ -1,126 +1,72 @@
-fetch('../JSON Pages/review.json')  // Path to your JSON file
-    .then(response => response.json())  // Parse JSON response
-    .then(reviews => {
-        // Now you have the reviews data and can generate reviews
-        generateReviews(reviews);
-    })
-    .catch(error => console.error('Error loading reviews:', error));
+// review.js
 
-// Function to display the reviews
-function generateReviews(reviews) {
-    const reviewContainer = document.getElementById('review-slider');
-    reviewContainer.innerHTML = "";  // Clear previous reviews
+// Handle review form submission
+document.getElementById('add-review-form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the default form submission
 
-    reviews.forEach((review, index) => {
-        const reviewBox = document.createElement('div');
-        reviewBox.classList.add('review-box');
-
-        const imgElement = document.createElement('img');
-        imgElement.src = review.image;
-        imgElement.alt = review.name;
-        reviewBox.appendChild(imgElement);
-
-        const starDiv = document.createElement('div');
-        starDiv.classList.add('start');
-        const nameElement = document.createElement('h3');
-        nameElement.textContent = review.name;
-        starDiv.appendChild(nameElement);
-
-        const fullStars = Math.floor(review.rating);
-        const halfStars = review.rating % 1 >= 0.5;
-
-        // Add full stars
-        for (let i = 0; i < fullStars; i++) {
-            const star = document.createElement('i');
-            star.classList.add('fas', 'fa-star');
-            starDiv.appendChild(star);
-        }
-
-        // Add half star
-        if (halfStars) {
-            const halfStar = document.createElement('i');
-            halfStar.classList.add('fas', 'fa-star-half-alt');
-            starDiv.appendChild(halfStar);
-        }
-
-        reviewBox.appendChild(starDiv);
-
-        const reviewText = document.createElement('p');
-        reviewText.textContent = review.review;
-        reviewBox.appendChild(reviewText);
-
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add('review-buttons');
-        const editButton = document.createElement('button');
-        editButton.textContent = "Edit";
-        editButton.onclick = () => editReview(index, reviews);
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = "Delete";
-        deleteButton.onclick = () => deleteReview(index, reviews);
-
-        buttonDiv.appendChild(editButton);
-        buttonDiv.appendChild(deleteButton);
-
-        reviewBox.appendChild(buttonDiv);
-
-        reviewContainer.appendChild(reviewBox);
-    });
-}
-
-// Add new review functionality
-document.getElementById('add-review-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-
+    // Get form data
     const name = document.getElementById('review-name').value;
     const image = document.getElementById('review-image').value;
-    const rating = parseFloat(document.getElementById('review-rating').value);
-    const reviewText = document.getElementById('review-text').value;
+    const rating = document.getElementById('review-rating').value;
+    const text = document.getElementById('review-text').value;
 
-    const newReview = {
+    // Validate input
+    if (name === "" || image === "" || rating < 1 || rating > 5 || text === "") {
+        alert("Please fill out all fields correctly.");
+        return;
+    }
+
+    // Create a review object (you can send this to a server if needed)
+    const review = {
         name: name,
         image: image,
         rating: rating,
-        review: reviewText
+        text: text
     };
 
-    // Fetch the existing reviews from JSON and add the new one
-    fetch('../JSON Pages/review.json')
-        .then(response => response.json())
-        .then(reviews => {
-            reviews.push(newReview);  // Add new review to the array
-            generateReviews(reviews);  // Update the display
-            this.reset();  // Reset the form
-        })
-        .catch(error => console.error('Error fetching reviews:', error));
+    // Store the review in localStorage (for simplicity, you could also send this to a backend)
+    const reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    reviews.push(review);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    // Update the UI with the new review
+    displayReviews();
+
+    // Reset form
+    document.getElementById('add-review-form').reset();
 });
 
-// Edit review functionality
-function editReview(index, reviews) {
-    const review = reviews[index];
+// Function to display all reviews
+function displayReviews() {
+    const reviews = JSON.parse(localStorage.getItem("reviews")) || [];
 
-    document.getElementById('review-name').value = review.name;
-    document.getElementById('review-image').value = review.image;
-    document.getElementById('review-rating').value = review.rating;
-    document.getElementById('review-text').value = review.review;
+    // Get the reviews container and clear it
+    const reviewsContainer = document.getElementById('reviews-container');
+    reviewsContainer.innerHTML = "";
 
-    document.getElementById('add-review-form').addEventListener('submit', function (event) {
-        event.preventDefault();
+    // Loop through reviews and create HTML elements for each
+    reviews.forEach(review => {
+        const reviewElement = document.createElement('div');
+        reviewElement.classList.add('review');
 
-        reviews[index] = {
-            name: document.getElementById('review-name').value,
-            image: document.getElementById('review-image').value,
-            rating: parseFloat(document.getElementById('review-rating').value),
-            review: document.getElementById('review-text').value
-        };
+        reviewElement.innerHTML = `
+            <div class="review-image">
+                <img src="${review.image}" alt="Review Image">
+            </div>
+            <div class="review-info">
+                <h3>${review.name}</h3>
+                <p>Rating: ${review.rating} / 5</p>
+                <p>${review.text}</p>
+            </div>
+        `;
 
-        generateReviews(reviews);  // Re-render the reviews
-        this.reset();  // Reset form
-    }, { once: true });
+        // Append the review to the container
+        reviewsContainer.appendChild(reviewElement);
+    });
 }
 
-// Delete review functionality
-function deleteReview(index, reviews) {
-    reviews.splice(index, 1);  // Remove the review from array
-    generateReviews(reviews);  // Update the display
-}
+// Call displayReviews on page load to show all reviews
+window.onload = function() {
+    displayReviews();
+};
+
