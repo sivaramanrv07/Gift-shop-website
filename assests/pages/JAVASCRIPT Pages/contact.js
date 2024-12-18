@@ -1,68 +1,67 @@
+const form = document.getElementById('contactForm');
 const submitBtn = document.getElementById('submitBtn');
 const successMessage = document.getElementById('successMessage');
 const nameError = document.getElementById('nameError');
-const emailError = document.getElementById('emailError');
 const numberError = document.getElementById('numberError');
 const messageError = document.getElementById('messageError');
 
 const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
 const numberInput = document.getElementById('number');
 const messageInput = document.getElementById('message');
 
-submitBtn.addEventListener('click', (event) => {
-    event.preventDefault(); 
+form.addEventListener('submit', function(event) {
+    event.preventDefault();  
 
-  
     nameError.textContent = '';
-    emailError.textContent = '';
     numberError.textContent = '';
     messageError.textContent = '';
 
     let hasError = false;
 
-    const nameRegex = /^[A-Za-z]{3,}(\s[A-Za-z]+)*$/;  
-
-    let nameValue = nameInput.value.trim();
-    if (!nameInput.value) {
-        nameError.textContent = 'Please enter your name.';
+    
+    const nameValue = nameInput.value.trim();
+    if (nameValue.length === 0) {
+        nameError.textContent = "name is required.";
         hasError = true;
-    } else if (!nameRegex.test(nameValue)) {
-        nameError.textContent = 'Please enter a valid name.';
+    } else if (nameValue.length < 4) {
+        nameError.textContent = "name must be at least 4 characters long.";
         hasError = true;
-    }
-
-    if (!emailInput.value) {
-        emailError.textContent = 'Please enter your email address.';
+    } else if (/^\d+$/.test(nameValue)) {  
+        nameError.textContent = "name cannot be just numbers."
         hasError = true;
-    } else if (!validateEmail(emailInput.value)) {
-        emailError.textContent = 'Please enter a valid email address.';
+    } else if (containsSpaceOrSlash(nameValue)) {  
+        nameError.textContent = "name cannot contain spaces or slashes.";
         hasError = true;
     }
+     else if (containsSpecialCharacters(nameValue)) {  
+    nameError.textContent = "name cannot contain special characters.";
+    hasError = true;
+}
 
-    const numberRegex = /^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$/; 
 
-    if (!numberInput.value) {
+    const numberValue = numberInput.value.trim();
+    const numberRegex = /^[0-9]{10}$/; 
+    if (!numberValue) {
         numberError.textContent = 'Please enter your phone number.';
         hasError = true;
-    } else if (!numberRegex.test(numberInput.value)) {
-        numberError.textContent = 'Please enter a valid phone number.';
+    } else if (!numberRegex.test(numberValue)) {
+        numberError.textContent = 'Please enter a valid phone number (10 digits).';
         hasError = true;
     }
 
-    if (!messageInput.value) {
-        messageError.textContent = 'Please enter a message.';
+    if (!messageInput.value.trim()) {
+        messageError.textContent = 'Please enter your message.';
         hasError = true;
     }
 
     if (!hasError) {
+    
+        form.submit(); 
+
         successMessage.style.display = 'block';
-
-        nameInput.value = '';
-        emailInput.value = '';
-        numberInput.value = '';
-        messageInput.value = '';
-
+       
+        form.reset();
+     
         setTimeout(() => {
             successMessage.style.display = 'none';
         }, 3000);
@@ -70,7 +69,15 @@ submitBtn.addEventListener('click', (event) => {
 });
 
 
-function validateEmail(email) {
-    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return re.test(email);
+function containsSpaceOrSlash(value) {
+    const regex = /[ /]/;  
+    return regex.test(value);
 }
+
+
+function containsSpecialCharacters(value) {
+    const regex = /[^a-zA-Z0-9]/;  
+    return regex.test(value);
+}
+
+

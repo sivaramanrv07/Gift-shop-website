@@ -20,10 +20,10 @@
 
         <ul class="nav-menu">
             <li><a href="/index.html" class="Home">Home</a></li>
-        <li><a href="/assests/pages/HTML Pages/Product.html" class="product">products</a></li>
-        <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
-        <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
-         <li><a href="/assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
+            <li><a href="/assests/pages/HTML Pages/Product.html" class="product">products</a></li>
+            <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
+            <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
+            <li><a href="/assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
         </ul>
 
         <div class="nav-icons">
@@ -39,7 +39,7 @@
         </div>
     </header>
 
-    <!-- Contact Section -->
+  
     <section id="Contact" class="Contact">
         <h1 class="touch">Contact Us<span>Get in Touch</span></h1>
 
@@ -48,26 +48,34 @@
                 <div class="left-side"></div>
                 <div class="right-side">
                     <h2>Send your message</h2>
-                    <input type="text" placeholder="Your name" class="value" id="name" required>
-                    <span class="error" id="nameError" style="color: red;"></span>
-                    
-                    <input type="tel" placeholder="Your number (xxx-xx-xxx)" class="value" id="number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
-                    <span class="error" id="numberError" style="color: red;"></span>
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                        <input type="hidden" name="access_key" value="21087f53-bb94-4d85-9b23-3d29b4da26ab">
 
-                    <textarea class="value" placeholder="Message" id="message" required></textarea>
-                    <span class="error" id="messageError" style="color: red;"></span>
+                        <input type="text" placeholder="Your name" class="value" id="name" name="name" required>
+                        <span class="error" id="nameError" style="color: red;"></span>
 
-                    <button class="btns" id="submitBtn">Send</button>
+                        <!-- <input type="email" placeholder="Your email" class="value" id="email" name="email" required>
+                        <span class="error" id="emailError" style="color: red;"></span> -->
 
-                    <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 20px;">
-                        Message sent successfully!
-                    </div>
+                        <input type="tel" placeholder="Your number (xxx-xx-xxx)" class="value" id="number" name="number" pattern="^\d{3}-?\d{3}-?\d{4}$|^\d{10}$" required>
+                        <span class="error" id="numberError" style="color: red;"></span>
+
+                        <textarea class="value" placeholder="Message" id="message" name="message" required></textarea>
+                        <span class="error" id="messageError" style="color: red;"></span>
+
+                        <button type="submit" class="btns" id="submitBtn">Send</button>
+
+                        <div id="successMessage" style="display:none; color: green; margin-top: 10px; font-size: 20px;">
+                            Message sent successfully!
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
-</body>
-<script src="../JAVASCRIPT Pages/contact.js"></script>
 
+    <script src="../JAVASCRIPT Pages/contact.js"></script>
+</body>
 </html>
+
 

@@ -47,15 +47,42 @@ function displayCart() {
 }
 
 
+
 function updateQuantity(index, change) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart[index];
-    item.quantity = Math.max(1, item.quantity + change);  
 
+   
+    const newQuantity = item.quantity + change;
+
+  
+    if (newQuantity < 1) {
+        item.quantity = 1;  
+    } else if (newQuantity > 10) {
+        item.quantity = 10; 
+        
+        if (change > 0) {
+            alert("You have reached the maximum quantity of 10.");
+        }
+    } else {
+        item.quantity = newQuantity; 
+    }
+
+    
+    if (item.quantity === 1 && change < 0) {
+        alert("You have reached the minimum quantity of 1.");
+    }
+
+ 
     localStorage.setItem('cart', JSON.stringify(cart));
 
+  
     displayCart();
 }
+
+
+
+
 
 function removeFromCart(index) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
