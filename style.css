@@ -374,6 +374,7 @@ background-color: orange;
 
 }
 .start{
+   padding-top: 10px;
    text-align: center;
    color: red;
    background-color:orange;
@@ -420,7 +421,8 @@ background-color: orange;
 }
 
 #add-review-form input,
-#add-review-form textarea {
+#add-review-form textarea,
+#add-review-form select {
    padding: 12px;
    margin-bottom: 15px;
    border: 1px solid #ddd;
@@ -473,6 +475,9 @@ background-color: orange;
  
    background-color:orange;
 }
+
+
+
 
 .Contact{
    width: 100%;

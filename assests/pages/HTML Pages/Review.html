@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +9,13 @@
 
     <link rel="stylesheet" href="../../../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <script src="/assests/pages/JAVASCRIPT Pages/user.js"></script>
-    <script src="../JAVASCRIPT Pages/review.js"></script>
-
+    <script src="/assests/pages/JAVASCRIPT Pages/review.js"></script>
     
 </head>
 <body>
     <!------------Header section starts -------------->
 <header>
-    <a href="/index.html" class="logo"><img src="../../images/logo-icon.png" alt="" class="logo"></a>
+    <a href="/index.html" class="logo"><img src="/assests/images/logo-icon.png" alt="" class="logo"></a>
     <div class="name">Giftopia</div>
     
        
@@ -26,7 +25,6 @@
         <li><a href="/assests/pages/HTML Pages/Feature.html" class="Features">Features</a></li>
         <li><a href="/assests/pages/HTML Pages/Review.html" class="Review">Review</a></li>
          <li><a href="/assests/pages/HTML Pages/Contact.html" class="Contact">Contact</a></li>
-       
        
     </ul>
     <div class="nav-icons">
@@ -40,15 +38,40 @@
             <button id="loginLogoutButton">Login</button>
         </div>
     </div>
-    
-
+   
 </header>
+    <section id="Review" class="Review">
+        <h1 class="content">Our Customer's<span>Review</span></h1>
+        <div class="Review-slider" id="reviewsList">
+        </div>
 
-<section id="Review" class="Review">
-    <h1 class="content">Our Customer's<span>Review</span></h1>  
-</section>
+       
+        <div id="AddReview">
+            <h2>Submit Your Review</h2>
+            <form id="add-review-form">
+                <input type="text" id="reviewerName" placeholder="Your Name" required><br>
+                <input type="file" id="reviewerImage" accept="image/*"><br>
+                <select id="reviewRating" required>
+                    <option value="">Select Rating</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select><br>
+                <textarea id="reviewText" placeholder="Write your review..." required></textarea><br>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
 
- 
 
-</body> 
-</html>    
+
+
+
+
+
+
+
