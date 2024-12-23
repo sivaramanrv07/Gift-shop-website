@@ -40,7 +40,7 @@ function checkLogin() {
 
     if (isLoggedIn) {
         
-        window.location.href = "/assets/pages/HTML Pages/cart.html";
+        window.location.href = "../HTML Pages/cart.html";
     } else {
        
         alert("Please log in to access your cart.");
