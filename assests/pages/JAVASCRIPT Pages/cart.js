@@ -1,26 +1,37 @@
-// Function to display the cart items
+
 function displayCart() {
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+    if (!isLoggedIn) {
+        
+        alert("Please log in to access your cart.");
+        window.location.href = '../HTML Pages/login.html';  
+        return; 
+    }
+
+   
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
     const orderButton = document.getElementById('order-btn');
 
     cartItemsContainer.innerHTML = '';
-
     if (cart.length === 0) {
+      
         cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty!</p>';
         totalPriceElement.innerHTML = 'Total Price: ₹0.00';
-        orderButton.disabled = true;
+        orderButton.disabled = true; 
         return;
     }
 
     let totalPrice = 0;
 
+    
     cart.forEach((item, index) => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
 
-        const itemPrice = parseFloat(item.price.replace('₹', '').replace('/-', '').trim());  
+        const itemPrice = parseFloat(item.price.replace('₹', '').replace('/-', '').trim());
         const itemTotal = (itemPrice * item.quantity).toFixed(2);
 
         cartItem.innerHTML = `
@@ -39,29 +50,28 @@ function displayCart() {
 
         cartItemsContainer.appendChild(cartItem);
 
-        totalPrice += itemPrice * item.quantity; 
+        totalPrice += itemPrice * item.quantity;  
     });
 
     totalPriceElement.innerHTML = `Total Price: ₹${totalPrice.toFixed(2)}`;
-    orderButton.disabled = false;
+    orderButton.disabled = false; 
 }
 
-// Function to update the quantity of an item in the cart
+
 function updateQuantity(index, change) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const item = cart[index];
-
     const newQuantity = item.quantity + change;
 
     if (newQuantity < 1) {
-        item.quantity = 1;  // Prevent negative or zero quantities
+        item.quantity = 1; 
     } else if (newQuantity > 10) {
-        item.quantity = 10; // Limit the quantity to 10
+        item.quantity = 10; 
         if (change > 0) {
             alert("You have reached the maximum quantity of 10.");
         }
     } else {
-        item.quantity = newQuantity; 
+        item.quantity = newQuantity;
     }
 
     if (item.quantity === 1 && change < 0) {
@@ -69,20 +79,18 @@ function updateQuantity(index, change) {
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-
-    displayCart(); // Refresh the cart after update
+    displayCart();  
 }
 
-// Function to remove an item from the cart
+
 function removeFromCart(index) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.splice(index, 1);  // Remove the item from the cart array
-    localStorage.setItem('cart', JSON.stringify(cart));  // Save the updated cart back to localStorage
+    cart.splice(index, 1);  
+    localStorage.setItem('cart', JSON.stringify(cart)); 
 
-    displayCart(); // Refresh the cart after removal
+    displayCart();  
 }
 
-// Function to place the order
 function placeOrder() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -95,7 +103,7 @@ function placeOrder() {
     const orderConfirmation = confirm(`Your total is ₹${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
     if (orderConfirmation) {
-        console.log('Storing order details:', cart, totalPrice); 
+        console.log('Storing order details:', cart, totalPrice);
 
         localStorage.setItem('orderDetails', JSON.stringify({
             cart: cart,
@@ -103,59 +111,76 @@ function placeOrder() {
         }));
 
         setTimeout(() => {
-            localStorage.removeItem('cart');  // Remove the cart after placing the order
-            console.log('Cart removed from localStorage:', localStorage); 
+            localStorage.removeItem('cart');  
+            console.log('Cart removed from localStorage:', localStorage);
 
-            // Redirect to payment page
-            window.location.href = '../HTML Pages/payement.html';  
-        }, 1000);  
+         
+            window.location.href = '../HTML Pages/payement.html';
+        }, 1000);
     }
 }
 
-// Function to initialize the cart and reset data
-window.onload = function() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Ensure that each cart item has a valid quantity (in case of inconsistent data)
+window.onload = function () {
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+    if (!isLoggedIn) {
+
+        localStorage.removeItem('cart');
+        alert("Please log in to view your cart.");
+        window.location.href = '/login.html';  
+        return;
+    }
+
+    
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.forEach(item => {
         if (!item.quantity) {
-            item.quantity = 1;  // Default quantity to 1 if it's undefined or invalid
+            item.quantity = 1;  
         }
     });
 
-    // Store the updated cart in localStorage
+   
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    displayCart();  // Display the cart
+    displayCart();  
 };
 
-// Function to clear the cart (when logging out or switching users)
-function clearCartOnLogout() {
-    localStorage.removeItem('cart');  // Clear the cart data from localStorage
-    displayCart();  // Display the empty cart
+
+function clearCart() {
+    localStorage.removeItem('cart'); 
+    console.log('Cart has been cleared:', localStorage.getItem('cart'));  
 }
 
-// Logout functionality - This can be triggered when the user clicks on "Logout"
+
 function logout() {
-    // Remove the user login data
-    localStorage.setItem('userLoggedIn', 'false');  
-    clearCartOnLogout();  // Clear the cart
+   
+    localStorage.setItem('userLoggedIn', 'false');
+
+ 
+    clearCart();  
+
 
     alert('You have logged out.');
 
-    // Reload the page or redirect to a login page
-    window.location.reload();  // Reload the page or redirect to login page
+    
+    window.location.href = '/assets/pages/HTML Pages/login.html';  
 }
 
-// Function to check login status and handle redirection to login page if needed
+
 function checkLogin() {
-    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; 
+    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
 
     if (isLoggedIn) {
-        // If the user is logged in, navigate to the cart page
-        window.location.href = "/assests/pages/HTML Pages/cart.html";
+     
+        window.location.href = "../HTML Pages/login.html";
     } else {
-        // If the user is not logged in, prompt to log in
+      
         alert("Please log in to access your cart.");
     }
 }
+
+
+
+
+
