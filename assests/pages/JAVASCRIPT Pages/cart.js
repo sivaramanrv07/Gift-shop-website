@@ -1,23 +1,21 @@
-
 function displayCart() {
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
     if (!isLoggedIn) {
-        
         alert("Please log in to access your cart.");
         window.location.href = '../HTML Pages/login.html';  
         return; 
     }
 
-   
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const userEmail = localStorage.getItem('userEmail');  // Get the logged-in user's email
+    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];  // Fetch cart tied to email
+
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
     const orderButton = document.getElementById('order-btn');
 
     cartItemsContainer.innerHTML = '';
     if (cart.length === 0) {
-      
         cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty!</p>';
         totalPriceElement.innerHTML = 'Total Price: ₹0.00';
         orderButton.disabled = true; 
@@ -26,7 +24,6 @@ function displayCart() {
 
     let totalPrice = 0;
 
-    
     cart.forEach((item, index) => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
@@ -59,7 +56,8 @@ function displayCart() {
 
 
 function updateQuantity(index, change) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const userEmail = localStorage.getItem('userEmail');
+    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];
     const item = cart[index];
     const newQuantity = item.quantity + change;
 
@@ -78,21 +76,23 @@ function updateQuantity(index, change) {
         alert("You have reached the minimum quantity of 1.");
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem(userEmail + '_cart', JSON.stringify(cart));
     displayCart();  
 }
 
 
 function removeFromCart(index) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const userEmail = localStorage.getItem('userEmail');
+    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];
     cart.splice(index, 1);  
-    localStorage.setItem('cart', JSON.stringify(cart)); 
+    localStorage.setItem(userEmail + '_cart', JSON.stringify(cart)); 
 
     displayCart();  
 }
 
 function placeOrder() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const userEmail = localStorage.getItem('userEmail');
+    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];
 
     if (cart.length === 0) {
         alert('Your cart is empty. Please add items to your cart before placing an order.');
@@ -111,11 +111,10 @@ function placeOrder() {
         }));
 
         setTimeout(() => {
-            localStorage.removeItem('cart');  
-            console.log('Cart removed from localStorage:', localStorage);
+            localStorage.removeItem(userEmail + '_cart');  
+            console.log('Cart removed for user:', userEmail);
 
-         
-            window.location.href = '../HTML Pages/payement.html';
+            window.location.href = '../HTML Pages/payment.html';
         }, 1000);
     }
 }
@@ -125,60 +124,55 @@ window.onload = function () {
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
     if (!isLoggedIn) {
-
         localStorage.removeItem('cart');
         alert("Please log in to view your cart.");
         window.location.href = '/login.html';  
         return;
     }
 
-    
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const userEmail = localStorage.getItem('userEmail');
+    let cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];
     cart.forEach(item => {
         if (!item.quantity) {
             item.quantity = 1;  
         }
     });
 
-   
-    localStorage.setItem('cart', JSON.stringify(cart));
-
+    localStorage.setItem(userEmail + '_cart', JSON.stringify(cart));
     displayCart();  
 };
 
-
 function clearCart() {
-    localStorage.removeItem('cart'); 
-    console.log('Cart has been cleared:', localStorage.getItem('cart'));  
+    const userEmail = localStorage.getItem('userEmail');
+    localStorage.removeItem(userEmail + '_cart'); 
+    console.log('Cart has been cleared for user:', userEmail);  
 }
 
-
 function logout() {
-   
+    // Set the userLoggedIn flag to false
     localStorage.setItem('userLoggedIn', 'false');
 
- 
-    clearCart();  
+    // Get the user's email from localStorage
+    const userEmail = localStorage.getItem('userEmail');
 
+    // If there's a valid user email, remove the cart for this user
+    if (userEmail) {
+        // Remove the user's cart by using their email as a key
+        localStorage.removeItem(userEmail + '_cart');
+        console.log('Cart removed for user:', userEmail);
+    }
 
+    // Clear the user email from localStorage
+    localStorage.removeItem('userEmail');
+    console.log('User email removed from localStorage.');
+
+    // Alert the user
     alert('You have logged out.');
 
-    
+    // Redirect the user to the login page
     window.location.href = '/assets/pages/HTML Pages/login.html';  
 }
 
-
-function checkLogin() {
-    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-
-    if (isLoggedIn) {
-     
-        window.location.href = "../HTML Pages/login.html";
-    } else {
-      
-        alert("Please log in to access your cart.");
-    }
-}
 
 
 

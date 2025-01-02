@@ -4,6 +4,7 @@ window.onload = () => {
     const loginLogoutButton = document.getElementById('loginLogoutButton');
 
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const userEmail = localStorage.getItem('userEmail');  // Assuming user email is stored in localStorage
 
     userIconLink.onclick = function() {
         loginLogoutButtonContainer.style.display = 
@@ -12,24 +13,25 @@ window.onload = () => {
         if (isLoggedIn) {
             loginLogoutButton.textContent = 'Logout';
             loginLogoutButton.onclick = function() {
-                // Step 1: Remove only the cart from localStorage (not all data)
-                localStorage.removeItem('cart');  
-                console.log('Cart after removal:', localStorage.getItem('cart'));  // Check if the cart is removed
-
-                // Step 2: Set 'userLoggedIn' to false
+              
+                // Remove the user's cart based on their email
+                localStorage.removeItem(userEmail + '_cart');  
+                console.log('Cart after removal:', localStorage.getItem(userEmail + '_cart')); 
+              
                 localStorage.setItem('userLoggedIn', 'false');
                 console.log('User logged out, userLoggedIn set to false:', localStorage.getItem('userLoggedIn'));
 
+                localStorage.removeItem('userEmail');
+                console.log('User email removed:', localStorage.getItem('userEmail'));
+
                 alert('You have logged out.');
 
-                // Step 3: Reload the page to reflect the logged-out state and cleared cart
                 window.location.reload();  
             };
         } else {
             loginLogoutButton.textContent = 'Login';
             loginLogoutButton.onclick = function() {
-                // Redirect to the login page if not logged in
-                window.location.href = '/assets/pages/HTML Pages/login.html';  
+               window.location.href = '/assets/pages/HTML Pages/login.html';  
             };
         }
     };
@@ -45,10 +47,18 @@ function checkLogin() {
     const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; 
 
     if (isLoggedIn) {
-        // If logged in, redirect to the cart page
-        window.location.href = "../HTML Pages/cart.html";
+        const userEmail = localStorage.getItem('userEmail');
+        const cart = localStorage.getItem(userEmail + '_cart'); // Get the cart for this user
+
+        if (cart) {
+            console.log('User cart:', JSON.parse(cart));
+            window.location.href = "/assests/pages/HTML Pages/cart.html ";  // Go to cart page
+        } else {
+            console.log('No cart found for the user');
+           
+        }
     } else {
-        // If not logged in, show an alert and ask the user to log in
         alert("Please log in to access your cart.");
     }
 }
+

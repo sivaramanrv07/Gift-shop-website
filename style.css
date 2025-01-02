@@ -477,6 +477,24 @@ background-color: orange;
 }
 
 
+.edit{
+   background-color: #e53935;
+   border-radius: 10px;
+   padding: 5px;
+   border: none;
+   margin: 20px;
+   width: 50px;
+
+}
+.delete{
+   background-color: #4CAF50;
+   border-radius: 10px;
+   padding: 5px;
+   border: none;
+   margin-left: 200px;
+   width: 50px;
+
+}
 
 
 .Contact{

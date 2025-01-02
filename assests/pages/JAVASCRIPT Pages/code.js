@@ -71,6 +71,7 @@ form.addEventListener("submit", (event) => {
                 const user = userCredential.user;
                 let bool = true;
                 localStorage.setItem('userLoggedIn',JSON.stringify(bool))
+                localStorage.setItem('userEmail', user.email);
                 console.log('Login successful:', user);
                     window.location.href = "../../../index.html"; 
 

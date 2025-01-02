@@ -20,6 +20,8 @@ window.onload = () => {
             loginLogoutButton.textContent = 'Logout';  
             loginLogoutButton.onclick = function () {
                 localStorage.setItem('userLoggedIn', 'false');  
+                localStorage.removeItem('userEmail');
+                console.log('User email removed:', localStorage.getItem('userEmail'));
                 alert('You have logged out.');
                 window.location.reload();  
             };
@@ -138,26 +140,35 @@ window.onload = () => {
    
     window.addToCart = function(name, image, price, link) {
         const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-
-        if (!isLoggedIn) {
+        const userEmail = localStorage.getItem('userEmail');  // Assuming userEmail is stored in localStorage
+    
+        if (!isLoggedIn || !userEmail) {
             alert('You need to be logged in to add items to your cart.');
-            window.location.href = '../HTML Pages/login.html';
+            window.location.href = '../HTML Pages/login.html';  // Redirect to login page if not logged in
             return;
         }
-
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+        // Get current cart for the logged-in user, or create a new one if it doesn't exist
+        const cartKey = userEmail + '_cart';  // Use user-specific cart key
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    
+        // Create the product object
         const product = { name, image, price, link };
-
+    
+        // Check if the product already exists in the cart
         const productIndex = cart.findIndex(item => item.name === name);
-
+    
         if (productIndex === -1) {
+            // Product doesn't exist in the cart, add it
             cart.push(product);
-            localStorage.setItem('cart', JSON.stringify(cart));  
+            localStorage.setItem(cartKey, JSON.stringify(cart));  // Save updated cart for this user
             alert(`${name} has been added to your cart!`);
         } else {
+            // Product already exists in the cart, notify the user
             alert(`${name} is already in your cart!`);
         }
-    }
+    };
+    
 
    
     window.buyNow = function(name, image, price, link) {
