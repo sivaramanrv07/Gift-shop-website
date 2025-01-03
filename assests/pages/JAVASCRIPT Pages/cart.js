@@ -114,7 +114,7 @@ function placeOrder() {
             localStorage.removeItem(userEmail + '_cart');  
             console.log('Cart removed for user:', userEmail);
 
-            window.location.href = '../HTML Pages/payment.html';
+            window.location.href = '../HTML Pages/payement.html';
         }, 1000);
     }
 }

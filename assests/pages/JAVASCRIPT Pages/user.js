@@ -31,7 +31,7 @@ window.onload = () => {
         } else {
             loginLogoutButton.textContent = 'Login';
             loginLogoutButton.onclick = function() {
-               window.location.href = '/assets/pages/HTML Pages/login.html';  
+               window.location.href = '/assests/pages/HTML Pages/login.html';  
             };
         }
     };
