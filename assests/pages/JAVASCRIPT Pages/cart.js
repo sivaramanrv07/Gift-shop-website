@@ -7,9 +7,8 @@ function displayCart() {
         return; 
     }
 
-    const userEmail = localStorage.getItem('userEmail');  // Get the logged-in user's email
-    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];  // Fetch cart tied to email
-
+    const userEmail = localStorage.getItem('userEmail'); 
+    const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || []; 
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
     const orderButton = document.getElementById('order-btn');
@@ -94,16 +93,27 @@ function placeOrder() {
     const userEmail = localStorage.getItem('userEmail');
     const cart = JSON.parse(localStorage.getItem(userEmail + '_cart')) || [];
 
-    if (cart.length === 0) {
-        alert('Your cart is empty. Please add items to your cart before placing an order.');
-        return;
-    }
 
     const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace('₹', '').replace('/-', '').trim()) * item.quantity, 0);
     const orderConfirmation = confirm(`Your total is ₹${totalPrice.toFixed(2)}. Do you want to place the order?`);
 
     if (orderConfirmation) {
         console.log('Storing order details:', cart, totalPrice);
+
+        
+         const orderDetails = {
+            orderDate: new Date().toLocaleString(), 
+            totalPrice: totalPrice,
+            items: cart
+        };
+
+        const orderHistory = JSON.parse(localStorage.getItem(userEmail + '_orderHistory')) || [];
+
+      
+        orderHistory.push(orderDetails);
+
+       
+        localStorage.setItem(userEmail + '_orderHistory', JSON.stringify(orderHistory));
 
         localStorage.setItem('orderDetails', JSON.stringify({
             cart: cart,
@@ -149,28 +159,30 @@ function clearCart() {
 }
 
 function logout() {
-    // Set the userLoggedIn flag to false
+  
     localStorage.setItem('userLoggedIn', 'false');
 
-    // Get the user's email from localStorage
     const userEmail = localStorage.getItem('userEmail');
 
-    // If there's a valid user email, remove the cart for this user
+   
     if (userEmail) {
-        // Remove the user's cart by using their email as a key
+       
         localStorage.removeItem(userEmail + '_cart');
         console.log('Cart removed for user:', userEmail);
     }
 
-    // Clear the user email from localStorage
     localStorage.removeItem('userEmail');
     console.log('User email removed from localStorage.');
 
-    // Alert the user
     alert('You have logged out.');
 
-    // Redirect the user to the login page
+
     window.location.href = '/assets/pages/HTML Pages/login.html';  
+}
+
+function viewOrderHistory() {
+   
+    window.location.href = '../HTML Pages/oder-history.html';
 }
 
 
