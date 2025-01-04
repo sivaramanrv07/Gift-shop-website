@@ -140,31 +140,31 @@ window.onload = () => {
    
     window.addToCart = function(name, image, price, link) {
         const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-        const userEmail = localStorage.getItem('userEmail');  // Assuming userEmail is stored in localStorage
+        const userEmail = localStorage.getItem('userEmail'); 
     
         if (!isLoggedIn || !userEmail) {
             alert('You need to be logged in to add items to your cart.');
-            window.location.href = '../HTML Pages/login.html';  // Redirect to login page if not logged in
+            window.location.href = '../HTML Pages/login.html';  
             return;
         }
     
-        // Get current cart for the logged-in user, or create a new one if it doesn't exist
-        const cartKey = userEmail + '_cart';  // Use user-specific cart key
+       
+        const cartKey = userEmail + '_cart';  
         const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
     
-        // Create the product object
+      
         const product = { name, image, price, link };
     
-        // Check if the product already exists in the cart
+        
         const productIndex = cart.findIndex(item => item.name === name);
     
         if (productIndex === -1) {
-            // Product doesn't exist in the cart, add it
+           
             cart.push(product);
-            localStorage.setItem(cartKey, JSON.stringify(cart));  // Save updated cart for this user
+            localStorage.setItem(cartKey, JSON.stringify(cart)); 
             alert(`${name} has been added to your cart!`);
         } else {
-            // Product already exists in the cart, notify the user
+           
             alert(`${name} is already in your cart!`);
         }
     };
@@ -173,15 +173,39 @@ window.onload = () => {
    
     window.buyNow = function(name, image, price, link) {
         const userLoggedIn = localStorage.getItem('userLoggedIn');
-
-        if (userLoggedIn === 'true') {
-            window.location.href = link;  
+        const userEmail = localStorage.getItem('userEmail'); 
+        if (userLoggedIn === 'true' && userEmail) {
+           
+            const newOrder = {
+                orderDate: new Date().toLocaleString(), 
+                totalPrice: parseFloat(price.replace('₹', '').trim()), 
+                items: [{
+                    name: name,
+                    image: image,
+                    price: price,
+                    quantity: 1
+                }]
+            };
+    
+           
+            let orderHistory = JSON.parse(localStorage.getItem(userEmail + '_orderHistory')) || [];
+    
+            
+            orderHistory.push(newOrder);
+    
+           
+            localStorage.setItem(userEmail + '_orderHistory', JSON.stringify(orderHistory));
+    
+           
+            window.location.href = link;
         } else {
+            
             alert("You need to log in first to make a purchase.");
-            localStorage.setItem('redirectUrl', link);
-            window.location.href = '../HTML Pages/login.html';  
+            localStorage.setItem('redirectUrl', link); 
+            window.location.href = '../HTML Pages/login.html';
         }
-    }
+    };
+    
 };
 
 function checkLogin() {
