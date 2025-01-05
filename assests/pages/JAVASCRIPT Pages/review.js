@@ -3,7 +3,7 @@ window.onload = () => {
     const loginLogoutButtonContainer = document.getElementById('loginLogoutButtonContainer');
     const loginLogoutButton = document.getElementById('loginLogoutButton');
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-    const cartIconLink = document.getElementById('cartIconLink'); // Cart icon or button
+    const cartIconLink = document.getElementById('cartIconLink'); 
 
     userIconLink.onclick = function () {
         loginLogoutButtonContainer.style.display =
@@ -13,7 +13,7 @@ window.onload = () => {
             loginLogoutButton.textContent = 'Logout';
             loginLogoutButton.onclick = function () {
                 localStorage.setItem('userLoggedIn', 'false');
-                localStorage.removeItem('userEmail');  // Clear user email on logout
+                localStorage.removeItem('userEmail'); 
                 alert('You have logged out.');
                 window.location.reload();
             };
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const reviewerImage = document.getElementById("reviewerImage").files[0];
         const reviewRating = document.getElementById("reviewRating").value;
         const reviewText = document.getElementById("reviewText").value;
-        const userEmail = localStorage.getItem("userEmail");  // Get logged-in user's email
+        const userEmail = localStorage.getItem("userEmail");  
 
         if (!reviewerName || !reviewRating || !reviewText) {
             alert("Please fill in all fields.");
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     imageData,
                     rating: reviewRating,
                     text: reviewText,
-                    userEmail: userEmail  // Store email to identify the review owner
+                    userEmail: userEmail
                 };
                 saveReview(newReview);
                 submitReview(newReview);
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 imageData: null,
                 rating: reviewRating,
                 text: reviewText,
-                userEmail: userEmail  // Store email to identify the review owner
+                userEmail: userEmail  
             };
             saveReview(newReview);
             submitReview(newReview);
@@ -128,8 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         textElement.textContent = review.text;
         reviewCard.appendChild(textElement);
 
-        // Only allow editing or deleting if the review belongs to the logged-in user's email
-        const currentUserEmail = localStorage.getItem("userEmail");  // Get logged-in user's email
+        const currentUserEmail = localStorage.getItem("userEmail");  
         if (review.userEmail === currentUserEmail) {
             const editButton = document.createElement("button");
             editButton.textContent = "Edit";
@@ -182,7 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return stars;
     }
 
-    // Edit Review Logic
     function editReview(review) {
         const reviewerName = prompt("Edit your review name:", review.name);
         const reviewText = prompt("Edit your review text:", review.text);
@@ -194,31 +192,85 @@ document.addEventListener("DOMContentLoaded", function () {
             review.rating = reviewRating;
             saveReview(review);
 
-            // Reload reviews to reflect changes
+        
             document.getElementById("reviewsList").innerHTML = '';
             loadReviews();
         }
     }
 
-    // Delete Review Logic
+ 
     function deleteReview(reviewId) {
         const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-        const currentUserEmail = localStorage.getItem("userEmail"); // Get logged-in user's email
-        
+        const currentUserEmail = localStorage.getItem("userEmail"); 
         if (!isLoggedIn || !currentUserEmail) {
             alert("You must be logged in to delete a review.");
-            return;  // Prevent deletion if the user is not logged in
+            return;  
         }
 
         let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
         reviews = reviews.filter(review => review.id !== reviewId);
         localStorage.setItem("reviews", JSON.stringify(reviews));
 
-        // Remove the review from the DOM
+      
         const reviewCard = document.querySelector(`[data-id="${reviewId}"]`);
         reviewCard.remove();
     }
 });
+
+    
+    function updateCartCount(cartCount) {
+        const cartCountElement = document.getElementById('cartcount');
+        
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;  
+          
+            if (cartCount === 0) {
+                cartCountElement.style.display = 'none';
+            } else {
+                cartCountElement.style.display = 'inline';
+            }
+        }
+    }
+    
+   
+    window.addToCart = function(name, image, price, link) {
+        const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+        const userEmail = localStorage.getItem('userEmail');
+    
+        if (!isLoggedIn || !userEmail) {
+            alert('You need to be logged in to add items to your cart.');
+            window.location.href = '../HTML Pages/login.html';  
+            return;
+        }
+    
+        const cartKey = userEmail + '_cart';  
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    
+        const product = { name, image, price, link };
+    
+        const productIndex = cart.findIndex(item => item.name === name);
+    
+        if (productIndex === -1) {
+            cart.push(product);
+            localStorage.setItem(cartKey, JSON.stringify(cart)); 
+            alert(`${name} has been added to your cart!`);
+        } else {
+            alert(`${name} is already in your cart!`);
+        }
+    
+        
+        updateCartCount(cart.length);
+    };
+    
+  
+    document.addEventListener('DOMContentLoaded', function() {
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+            const cartKey = userEmail + '_cart';
+            const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+            updateCartCount(cart.length);
+        }
+    });
 
 
 

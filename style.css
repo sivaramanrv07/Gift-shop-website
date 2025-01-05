@@ -918,6 +918,57 @@ textarea{
    background-color: orange
 }
 
+.cart-count {
+   position: absolute;
+   top: 28px;  
+   right: 224px;
+   background-color: red;
+   color: white;
+   border-radius: 50%;
+   padding: 2px 6px;
+   font-size: 13px; 
+   font-weight: bold; 
+   display: inline-block;
+   min-width: 20px;
+   min-height: 20px; 
+   text-align: center;
+   line-height: 16px; 
+}
+
+#cart-counts{
+   position: absolute;
+   top: 28px;  
+   right: 262px;
+   background-color: red;
+   color: white;
+   border-radius: 50%; 
+   font-size: 13px; 
+   font-weight: bold; 
+   display: inline-block;
+   min-width: 20px; 
+   min-height: 20px; 
+   text-align: center;
+   line-height: 16px; 
+}
+.cartcount{
+   position: absolute;
+   top: 28px; 
+   right: 260px;
+   background-color: red;
+   color: white;
+   border-radius: 50%; 
+   padding: 2px 6px; 
+   font-size: 13px;
+   font-weight: bold; 
+   display: inline-block;
+   min-width: 20px;
+   min-height: 20px;
+   text-align: center;
+   line-height: 16px; 
+
+}
+
+
 
 
 

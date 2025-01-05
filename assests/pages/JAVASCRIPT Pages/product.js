@@ -167,6 +167,8 @@ window.onload = () => {
            
             alert(`${name} is already in your cart!`);
         }
+
+        updateCartCount(cart.length);
     };
     
 
@@ -219,4 +221,30 @@ function checkLogin() {
         alert("Please log in to access your cart.");
     }
 }
+
+function updateCartCount(cartCount) {
+    const cartCountElement = document.getElementById('cart-count');
+
+    if (cartCountElement) {
+        cartCountElement.textContent = cartCount;
+
+       
+        if (cartCount === 0) {
+            cartCountElement.style.display = 'none';
+        } else {
+            cartCountElement.style.display = 'inline';
+        }
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+        const cartKey = userEmail + '_cart';
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        updateCartCount(cart.length); 
+    }
+});
+
 
