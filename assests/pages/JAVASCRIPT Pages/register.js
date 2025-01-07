@@ -124,6 +124,7 @@ form.addEventListener("submit", (event) => {
                 confirmPassword.disabled = false;
                 let bool = true;
                 localStorage.setItem('userLoggedIn',JSON.stringify(bool))
+                localStorage.setItem('userEmail', user.email);
                 window.location.href = "../../../index.html";
             })
             .catch((error) => {
