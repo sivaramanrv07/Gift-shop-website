@@ -39,15 +39,21 @@ form.addEventListener('submit', function(event) {
 }
 
 
-    const numberValue = numberInput.value.trim();
-    const numberRegex = /^[0-9]{10}$/; 
-    if (!numberValue) {
-        numberError.textContent = 'Please enter your phone number.';
-        hasError = true;
-    } else if (!numberRegex.test(numberValue)) {
-        numberError.textContent = 'Please enter a valid phone number (10 digits).';
-        hasError = true;
-    }
+const numberValue = numberInput.value.trim();
+const numberRegex = /^(?:\+?\d{1,3})?(\d{10})$/;
+const repeatedDigitsRegex = /^(\d)\1{9}$/; 
+
+if (!numberValue) {
+    numberError.textContent = 'Please enter your phone number.';
+    hasError = true;
+} else if (!numberRegex.test(numberValue)) {
+    numberError.textContent = 'Please enter a valid phone number';
+    hasError = true;
+} else if (repeatedDigitsRegex.test(numberValue)) {
+    numberError.textContent = 'Please enter a valid mobile number.';
+    hasError = true;
+}
+
 
     if (!messageInput.value.trim()) {
         messageError.textContent = 'Please enter your message.';
