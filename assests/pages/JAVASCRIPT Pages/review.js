@@ -38,9 +38,15 @@ function checkLogin() {
         window.location.href = '../HTML Pages/login.html';
     }
 }
-
 document.addEventListener("DOMContentLoaded", function () {
     const reviewForm = document.getElementById("add-review-form");
+
+   
+    const reviewerNameError = document.getElementById("reviewerName-error");
+    const reviewerImageError = document.getElementById("reviewerImage-error");
+    const reviewRatingError = document.getElementById("reviewRating-error");
+    const reviewTextError = document.getElementById("reviewText-error");
+
     const reviewContainer = document.getElementById("reviewsList");
 
     loadReviews();
@@ -48,10 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
     reviewForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
+       
+        reviewerNameError.textContent = '';
+        reviewerImageError.textContent = '';
+        reviewRatingError.textContent = '';
+        reviewTextError.textContent = '';
+
         const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
         if (!isLoggedIn) {
             alert("You must be logged in to submit a review.");
-            reviewForm.reset();
             window.location.href = '../HTML Pages/login.html';
             return;
         }
@@ -60,11 +71,60 @@ document.addEventListener("DOMContentLoaded", function () {
         const reviewerImage = document.getElementById("reviewerImage").files[0];
         const reviewRating = document.getElementById("reviewRating").value;
         const reviewText = document.getElementById("reviewText").value;
-        const userEmail = localStorage.getItem("userEmail");  
+        const userEmail = localStorage.getItem("userEmail");
 
-        if (!reviewerName || !reviewRating || !reviewText) {
-            alert("Please fill in all fields.");
-            return;
+        
+        let valid = true;
+
+       
+        if (!reviewerName) {
+            reviewerNameError.textContent = "Please enter your name.";
+            valid = false;
+        } else if (reviewerName.length < 3) {
+            reviewerNameError.textContent = "Name must be at least 3 characters long.";
+            valid = false;
+        } else if (reviewerName.length > 15) {
+            reviewerNameError.textContent = "Name must be no more than 15 characters long.";
+            valid = false;
+        } else if (/[^a-zA-Z]/.test(reviewerName)) {  // Allow only letters, no numbers or special characters
+            reviewerNameError.textContent = "Name should only contain letters, no spaces, numbers, or special characters.";
+            valid = false;
+        }
+
+       
+        if (!reviewRating) {
+            reviewRatingError.textContent = "Please select a rating.";
+            valid = false;
+        }
+
+        
+        if (!reviewText) {
+            reviewTextError.textContent = "Please enter your review text.";
+            valid = false;
+        } else if (reviewText.length < 10) {
+            reviewTextError.textContent = "Review text must be more than 10 characters.";
+            valid = false;
+        } else if (reviewText.length > 200) {
+            reviewTextError.textContent = "Review text must be no more than 200 characters.";
+            valid = false;
+        } else if (/^[0-9]*$/.test(reviewText) || /^[^a-zA-Z0-9]*$/.test(reviewText)) {
+            reviewTextError.textContent = "Review text must not contain only numbers or special characters.";
+            valid = false;
+        }
+
+        if (!reviewerImage) {
+            reviewerImageError.textContent = "Please upload an image.";
+            valid = false;
+        } else {
+            const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!allowedImageTypes.includes(reviewerImage.type)) {
+                reviewerImageError.textContent = "Please upload a valid image (JPG, PNG, or GIF).";
+                valid = false;
+            }
+        }
+
+        if (!valid) {
+            return; 
         }
 
         let imageData = null;
@@ -91,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 imageData: null,
                 rating: reviewRating,
                 text: reviewText,
-                userEmail: userEmail  
+                userEmail: userEmail
             };
             saveReview(newReview);
             submitReview(newReview);
@@ -128,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         textElement.textContent = review.text;
         reviewCard.appendChild(textElement);
 
-        const currentUserEmail = localStorage.getItem("userEmail");  
+        const currentUserEmail = localStorage.getItem("userEmail");
         if (review.userEmail === currentUserEmail) {
             const editButton = document.createElement("button");
             editButton.textContent = "Edit";
@@ -192,30 +252,29 @@ document.addEventListener("DOMContentLoaded", function () {
             review.rating = reviewRating;
             saveReview(review);
 
-        
             document.getElementById("reviewsList").innerHTML = '';
             loadReviews();
         }
     }
 
- 
     function deleteReview(reviewId) {
         const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-        const currentUserEmail = localStorage.getItem("userEmail"); 
+        const currentUserEmail = localStorage.getItem("userEmail");
         if (!isLoggedIn || !currentUserEmail) {
             alert("You must be logged in to delete a review.");
-            return;  
+            return;
         }
 
         let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
         reviews = reviews.filter(review => review.id !== reviewId);
         localStorage.setItem("reviews", JSON.stringify(reviews));
 
-      
         const reviewCard = document.querySelector(`[data-id="${reviewId}"]`);
         reviewCard.remove();
     }
 });
+
+
 
     
    

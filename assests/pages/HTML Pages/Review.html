@@ -49,21 +49,39 @@
        
         <div id="AddReview">
             <h2>Submit Your Review</h2>
-            <form id="add-review-form">
-                <input type="text" id="reviewerName" placeholder="Your Name" required><br>
-                <input type="file" id="reviewerImage" accept="image/*"><br>
-                <select id="reviewRating" required>
-                    <option value="">Select Rating</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
-                </select><br>
-                <textarea id="reviewText" placeholder="Write your review..." required></textarea><br>
+            
+            <form id="add-review-form" novalidate>
+                <div>
+                    <input type="text" id="reviewerName" placeholder="Your Name" required>
+                    <div id="reviewerName-error" style="color: red;"></div>
+                </div>
+                
+                <div>
+                    <input type="file" id="reviewerImage" accept="image/*">
+                    <div id="reviewerImage-error" style="color: red;"></div>
+                </div>
+                
+                <div>
+                    <select id="reviewRating" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                    <div id="reviewRating-error" style="color: red;"></div>
+                </div>
+                
+                <div>
+                    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+                    <div id="reviewText-error" style="color: red;"></div>
+                </div>
+                
                 <button type="submit">Submit Review</button>
             </form>
         </div>
+        
     </section>
 </body>
 </html>
